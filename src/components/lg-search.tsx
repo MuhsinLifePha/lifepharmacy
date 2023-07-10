@@ -20,7 +20,7 @@ export default function LgSearchComponent({ searchData, searchSuggestions }: { s
     )
 
     return (
-        <div className="shadow-xl px-3 lg-screen-searchsuggestion-lg scale-100 hidden absolute top-13  right-0 left-0  bg-white border-gray-200   rounded-t-0 rounded-b-md z-50 border-t-[3px] border-muted">
+        <div className="shadow-xl px-3 lg-screen-searchsuggestion-lg scale-100  absolute top-13  right-0 left-0  bg-white border-gray-200   rounded-t-0 rounded-b-md z-50 border-t-[3px] border-muted">
             {searchData.results[1] ?
                 <>
                     <div className="mb-5 group-search sticky top-0 bg-white pt-4">

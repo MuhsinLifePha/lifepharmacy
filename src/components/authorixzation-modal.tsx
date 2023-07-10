@@ -195,9 +195,9 @@ const AuthModal = ({ showModal, setCloseModal, setaddnewAddressFormVisibility, s
 
                     <form className="space-y-6" action="#" >
                         <div className="mt-3 flex-1">
-                            <Tabs value="phone" className="border-none ">
-                                <TabsHeader >
-                                    <Tab key="phone" value="phone">
+                            <Tabs value="phone" className="border-none">
+                                <TabsHeader className="bg-slate-100">
+                                    <Tab key="phone" value="phone" >
                                         <span className="sm:text-base text-xs">Using Phone</span>
                                     </Tab>
                                     <Tab key="email" value="email">

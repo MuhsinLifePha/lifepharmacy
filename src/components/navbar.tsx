@@ -144,7 +144,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, isArabic, lang }) => {
       const lgScreenSearchBox = document.getElementById("lg-screen-search") as HTMLInputElement
 
       if (isOpen) {
-        document.getElementsByClassName("lg-screen-searchsuggestion-lg")[0].classList.remove("hidden");
+        // document.getElementsByClassName("lg-screen-searchsuggestion-lg")[0].classList.remove("hidden");
         lgScreenSearchBox.classList.remove("rounded-full");
         lgScreenSearchBox.classList.add("rounded-b-none", "rounded-3xl");
       }

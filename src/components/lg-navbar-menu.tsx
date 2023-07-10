@@ -200,9 +200,10 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
     const { t, locale } = useLanguage()
     const { width } = useWindowDimensions()
     const [groupHoverState, setGroupHover] = useState(false)
-    const [productsState, setMorProductsState] = useState(false)
+    // const [domLoaded, setdomLoaded] = useState(false)
 
     useEffect(() => {
+        // setdomLoaded(true)
         fetchTopBrandsData(`categories=${"facial-skin-care"}`, 'facial-skin-care')
     }, [])
 
@@ -345,8 +346,7 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                                                         <div className="absolute  left-0 right-0 bottom-0 bg-emerald-200  w-fit mx-auto rounded-tl-lg rounded-tr-lg px-1">
                                                             <h5 className="text-center text-black text-[11px] whitespace-nowrap">{brandData.name}</h5>
                                                         </div>
-                                                    </Link>
-                                                ))
+                                                    </Link>))
                                                 :
                                                 <div className="col-span-full mx-auto">
                                                     <ContentLoader
@@ -414,27 +414,23 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                     </NavigationMenu.Item>
 
                     <NavigationMenu.Item className="w-full xl:col-span-1 col-span-2">
-                        <NavigationMenu.Link
-                            className="w-full group flex  select-none items-center justify-center rounded-[4px] px-3  text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
-                            <Link href={"/offers"} className="flex items-center underline-tra hover:text-blue-500 ">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="w-6 h-6 my-2 float-left mr-3" viewBox="0 0 16 16">
-                                    <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z" />
-                                    <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z" />
-                                </svg>
-                                <h6>Offers</h6>
-                            </Link>
+                        <NavigationMenu.Link href={"/offers"}
+                            className="w-full group flex underline-tra hover:text-blue-500  select-none items-center justify-center rounded-[4px] px-3  text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="w-6 h-6 my-2 float-left mr-3" viewBox="0 0 16 16">
+                                <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z" />
+                                <path d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z" />
+                            </svg>
+                            <h6>Offers</h6>
                         </NavigationMenu.Link>
                     </NavigationMenu.Item>
 
                     <NavigationMenu.Item className="w-full xl:col-span-1 col-span-2">
-                        <NavigationMenu.Link
-                            className="w-full group flex  select-none items-center justify-center rounded-[4px] px-3  text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
-                            <Link href={"/packages"} className="flex items-center underline-tra hover:text-blue-500 ">
+                        <NavigationMenu.Link href="/packages"
+                            className="w-full group flex  select-none  underline-tra hover:text-blue-500 items-center justify-center rounded-[4px] px-3  text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
 
-                                <Image src={"https://www.lifepharmacy.com/images/appointments.svg"} className="w-5 h-5 my-2 float-left mr-3" width={24} height={24} alt="appointments" />
+                            <Image src={"https://www.lifepharmacy.com/images/appointments.svg"} className="w-5 h-5 my-2 float-left mr-3" width={24} height={24} alt="appointments" />
 
-                                <h6 className="whitespace-nowrap"> Packages</h6>
-                            </Link>
+                            <h6 className="whitespace-nowrap"> Packages</h6>
                         </NavigationMenu.Link>
                     </NavigationMenu.Item>
 

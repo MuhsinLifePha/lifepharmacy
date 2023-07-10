@@ -7,10 +7,10 @@ export default function Footer() {
     const { t } = useLanguage()
     return (
         <>
-            <div className="z-10  mx-auto hidden sm:block">
+            <div className="z-10  mx-auto ">
                 <div className=" border border-muted lg:py-8 sm:py-5 py-4">
                     <div className="max-w-[1450px] mx-auto px-[10px] flex justify-around md:text-3xl sm:text-2xl text-xl ">
-                        <div >
+                        <div>
                             <div className="text-center  font-bold  ">{t.footer.top_part.n26}</div>
                             <div className=" text-center  text-gray-600  sm:text-sm text-xs">{t.footer.top_part.years_of_trust}</div>
                         </div>
@@ -23,9 +23,8 @@ export default function Footer() {
                             <div className="text-center  text-gray-600 sm:text-sm mr-3 text-xs">{t.footer.top_part.stores}</div>
                         </div>
                     </div>
-
                 </div>
-                <div className="bg-sub-img  ">
+                <div className="bg-sub-img">
                     <div className="grid md:grid-cols-2 grid-cols-1 max-w-[1450px] px-[10px] mx-auto gap-x-10 py-3">
                         <div className="py-6">
                             <h3 className="text-white md:text-sm text-xs text-center mb-7">Subscribe For The Latest Discount & Trends</h3>
@@ -208,22 +207,20 @@ export default function Footer() {
                 {pathname === "/" ?
                     <>
                         <section>
-                            <h3 className="font-semibold">Live Healthy with Life Pharmacy – First Omni-Channel Pharmacy & Healthcare Retailer in Middle East.</h3>
-                            <br />
-                            <p className="md:text-base text-sm">Our Heritage: Life Pharmacy started its journey in 1996 with a strong impulse to provide state-of-the-art experience in healthcare retail. Starting with one store, Life Pharmacy in UAE has 300+ retail outlets consisting of Pharmacies, Healthcare Hypermarkets, Health and Wellness stores catering to an average annual customer base of more than ten million walk-ins. Life Pharmacy is also the number one Online pharmacy in UAE. Life Pharmacy app and website are widely used by users across UAE for all their health, fitness & lifestyle needs.</p>
+                            <h4 className="font-semibold">Live Healthy with Life Pharmacy – First Omni-Channel Pharmacy & Healthcare Retailer in Middle East.</h4>
+                            <p>Our Heritage: Life Pharmacy started its journey in 1996 with a strong impulse to provide state-of-the-art experience in healthcare retail. Starting with one store, Life Pharmacy in UAE has 300+ retail outlets consisting of Pharmacies, Healthcare Hypermarkets, Health and Wellness stores catering to an average annual customer base of more than ten million walk-ins. Life Pharmacy is also the number one Online pharmacy in UAE. Life Pharmacy app and website are widely used by users across UAE for all their health, fitness & lifestyle needs.</p>
                         </section>
                         <section className="ol-footer">
-                            <h3 className="font-semibold">USPs of Life Pharmacy</h3>
-                            <br />
+                            <h4 className="font-semibold">USPs of Life Pharmacy</h4>
                             <ul>
                                 <li>
-                                    <p className="md:text-base text-sm ">Our Heritage: Life Pharmacy started its journey in 1996 with a strong impulse to provide state-of-the-art experience in healthcare retail. Starting with one store, Life Pharmacy in UAE has 300+ retail outlets consisting of Pharmacies, Healthcare Hypermarkets, Health and Wellness stores catering to an average annual customer base of more than ten million walk-ins. Life Pharmacy is also the number one Online pharmacy in UAE. Life Pharmacy app and website are widely used by users across UAE for all their health, fitness & lifestyle needs.</p>
+                                    <p>Our Heritage: Life Pharmacy started its journey in 1996 with a strong impulse to provide state-of-the-art experience in healthcare retail. Starting with one store, Life Pharmacy in UAE has 300+ retail outlets consisting of Pharmacies, Healthcare Hypermarkets, Health and Wellness stores catering to an average annual customer base of more than ten million walk-ins. Life Pharmacy is also the number one Online pharmacy in UAE. Life Pharmacy app and website are widely used by users across UAE for all their health, fitness & lifestyle needs.</p>
                                 </li>
                                 <li>
-                                    <p className="md:text-base text-sm">Largest pharmacy network in UAE: With 300+ stores in UAE, Life Pharmacy has been named as the largest pharmacy network in UAE. The healthcare group aims to expand the number of outlets and increasing presence to five times the current store count in the coming 4 years and increase the current store count to 1500 by end of 2025.</p>
+                                    <p>Largest pharmacy network in UAE: With 300+ stores in UAE, Life Pharmacy has been named as the largest pharmacy network in UAE. The healthcare group aims to expand the number of outlets and increasing presence to five times the current store count in the coming 4 years and increase the current store count to 1500 by end of 2025.</p>
                                 </li>
                                 <li>
-                                    <p className="md:text-base text-sm">Omni-channel Experience: Life Pharmacy has successfully connected the world of online and offline with its innovative omni-channel retail technologies. Users can now shop wherever they choose, be it at one of our retail stores, call, or on their mobile devices.</p>
+                                    <p>Omni-channel Experience: Life Pharmacy has successfully connected the world of online and offline with its innovative omni-channel retail technologies. Users can now shop wherever they choose, be it at one of our retail stores, call, or on their mobile devices.</p>
                                 </li>
                             </ul>
                         </section></>

@@ -17,13 +17,13 @@ interface layoutProps {
 }
 
 export const Layout: FC<layoutProps> = ({ children, data, brands_data, isArabic, lang }) => {
-  function searchButtonOnLeave(e: any) {
-    if (!e.target.parentNode.classList.contains("group-search")) {
-      document.getElementsByClassName("lg-screen-searchsuggestion-lg")[0].classList.add("hidden");
-      (document.getElementById("lg-screen-search") as HTMLInputElement).classList.remove("rounded-b-none", "rounded-xl");
-      (document.getElementById("lg-screen-search") as HTMLInputElement).classList.add("rounded-full");
-    }
-  }
+  // function searchButtonOnLeave(e: any) {
+  //   if (!e.target.parentNode.classList.contains("group-search")) {
+  //     document.getElementsByClassName("lg-screen-searchsuggestion-lg")[0].classList.add("hidden");
+  //     (document.getElementById("lg-screen-search") as HTMLInputElement).classList.remove("rounded-b-none", "rounded-xl");
+  //     (document.getElementById("lg-screen-search") as HTMLInputElement).classList.add("rounded-full");
+  //   }
+  // }
 
   return (
     <Providers>
@@ -39,7 +39,7 @@ export const Layout: FC<layoutProps> = ({ children, data, brands_data, isArabic,
         pauseOnHover={false}
         theme="colored"
       />
-      <section className="py-0" onMouseDown={(e) => { searchButtonOnLeave(e) }}>
+      <section className="py-0" >
         <Navbar data={data} brands_data={brands_data} isArabic={isArabic} lang={lang}  />
         <main>{children}</main>
         <Footer  />

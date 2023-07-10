@@ -57,7 +57,7 @@ const SearchBoxSuggMenuMC = ({ placeholderData }: { placeholderData: any }) => {
                     </div>
                 </PopoverHandler>
 
-                <PopoverContent className="absolute left-3 right-3 z-10 -mt-3 transform sm:px-0 max-w-[1440px]   shadow-lg rounded-lg  border border-muted !py-1">
+                <PopoverContent className="absolute left-3 right-3 z-10 -mt-3 transform sm:px-0 max-w-[1440px] shadow-lg rounded-lg  border border-muted !py-1">
                     <div className='w-full bg-white '>
                         {searchData ? 
                         searchData.data.length>0?

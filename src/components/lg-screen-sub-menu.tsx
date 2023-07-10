@@ -8,16 +8,17 @@ import { RootState } from "../redux/store";
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { removeFromCart } from "../redux/cart.slice";
+import { CommandDemo } from "./cmd-cart"
 
-const LgScreenSubMenu = ({ countries, languages, setLanguageModal ,setLocationModal }: { countries: any, languages: any, setLanguageModal:any, setLocationModal:any }) => {
+const LgScreenSubMenu = ({ countries, languages, setLanguageModal, setLocationModal }: { countries: any, languages: any, setLanguageModal: any, setLocationModal: any }) => {
 
-    const { t,locale } = useLanguage()
+    const { t, locale } = useLanguage()
     const [domLoaded, setDomLoaded] = useState(false);
 
     const parts = locale ? locale?.split("-") : ["ae", "en"]
     const { data: session } = useSession()
     const cartItems = useSelector((state: RootState) => state.cart);
-    
+
     const getFlagByLocale = () => {
         if (parts) {
             if (parts[0] === "sa") {
@@ -48,16 +49,16 @@ const LgScreenSubMenu = ({ countries, languages, setLanguageModal ,setLocationMo
     const calculateTotalCartPrice = (): string => {
         let totalPrice: number = 0;
         cartItems.forEach((pro_data: any) => {
-          totalPrice += pro_data.prices[0].price.regular_price * pro_data.quantity;
+            totalPrice += pro_data.prices[0].price.regular_price * pro_data.quantity;
         });
         return parseFloat(totalPrice.toString()).toFixed(2);
-      };
-    
-      const removedFromCart = () => {
-        toast.info(`Cart Suceesfully Updated`);
-      }
+    };
 
-  const dispatch = useDispatch();
+    const removedFromCart = () => {
+        toast.info(`Cart Suceesfully Updated`);
+    }
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setDomLoaded(true)
@@ -74,7 +75,7 @@ const LgScreenSubMenu = ({ countries, languages, setLanguageModal ,setLocationMo
             </button>
 
             {session ?
-                <Link  className="  text-left  justify-between  flex-col pl-5  md:hidden lg:flex hidden" href="/dashboard">
+                <Link className="  text-left  justify-between  flex-col pl-5  md:hidden lg:flex hidden" href="/dashboard">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="w-7 h-7 mx-auto fill-white" viewBox="0 0 16 16">
                         <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                     </svg>
@@ -99,7 +100,7 @@ const LgScreenSubMenu = ({ countries, languages, setLanguageModal ,setLocationMo
                 <div className="text-[11px] text-center text-white whitespace-nowrap">{t.navbar.wishlist}</div>
 
             </a>
-            <a href={`/cart`} className="justify-between flex-col md:hidden lg:flex hidden relative cart group/cart pl-5">
+            <div className="justify-between flex-col md:hidden lg:flex hidden relative cart group/cart pl-5">
                 {domLoaded ?
                     cartItems && cartItems.length != 0 ?
                         <div className="absolute inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500  rounded-full -top-2 -right-2 "> {cartItems.length}</div>
@@ -111,9 +112,9 @@ const LgScreenSubMenu = ({ countries, languages, setLanguageModal ,setLocationMo
                 <div className="text-[11px] text-center text-white" >{t.navbar.cart}</div>
 
                 {domLoaded && cartItems && cartItems.length > 0 ?
-                    <div className="group-hover/cart:scale-100  scale-0 absolute w-[25rem] top-[3rem] right-0 bg-white rounded-lg px-3 py-2  h-fit  shadow-lg z-30">
-                        <div className="overflow-y-auto h-fit max-h-[20rem] px-2">
-                            {cartItems.map((item: any) => (
+                    <div className="group-hover/cart:scale-100  scale-0 absolute w-[25rem] top-[3rem] right-0  rounded-lg px-3 py-2  h-fit  shadow-lg z-30">
+
+                        {/* {cartItems.map((item: any) => (
                                 <>
                                     <div className="flex py-2">
                                         <a href={`/product/${item.slug}`} className="w-3/4 text-sm  my-auto">{item.title}</a>
@@ -135,22 +136,26 @@ const LgScreenSubMenu = ({ countries, languages, setLanguageModal ,setLocationMo
                                     </div>
                                     <div className="bg-gray-300 h-[1px] w-11/12 mx-auto mt-2"></div>
                                 </>
-                            ))}
-                        </div>
-
-                        <div className="py-3">
-                            <div className="flex justify-between ">
-                                <div>TOTAL <span className="text-xs">(WITHOUT SHIPPING)</span> </div>
-                                <div className="">AED {calculateTotalCartPrice()}</div>
+                            ))} */}
+                        <CommandDemo cartItems={cartItems}>
+                            <div className="px-3">
+                                <div className="py-3">
+                                    <div className="flex justify-between ">
+                                        <div>TOTAL <span className="text-xs">(WITHOUT SHIPPING)</span> </div>
+                                        <div className="">AED {calculateTotalCartPrice()}</div>
+                                    </div>
+                                </div>
+                                <div className="py-3 flex justify-between text-white space-x-3">
+                                    <a href={`/cart`} className="bg-[#39f] px-3 py-1 w-full text-center" >CART</a>
+                                    <button className="bg-[#39f] px-3 py-1 w-full">CHECK OUT</button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="py-3 flex justify-between text-white space-x-3">
-                            <a href={`/cart`} className="bg-[#39f] px-3 py-1 w-full text-center" >CART</a>
-                            <button className="bg-[#39f] px-3 py-1 w-full">CHECK OUT</button>
-                        </div>
+
+                        </CommandDemo>
+
                     </div>
                     : null}
-            </a>
+            </div>
         </div>
     )
 }
