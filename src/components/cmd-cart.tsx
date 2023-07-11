@@ -39,7 +39,6 @@ export function CommandDemo({ cartItems, children }: { cartItems: any, children:
                 </CommandGroup>
             </CommandList>
             {children}
-
         </Command>
     )
 }

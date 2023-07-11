@@ -189,7 +189,7 @@ import ContentLoader from "react-content-loader"
 
 import React from 'react';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
-
+import { animate, motion, motionValue } from "framer-motion"
 const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data: any, brands_data: any }) => {
     const [hoverIndex, setHoverIndex] = useState<any>(0)
     const [subCatIndex, setSubCatIndex] = useState<any>(0)
@@ -201,6 +201,7 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
     const { width } = useWindowDimensions()
     const [groupHoverState, setGroupHover] = useState(false)
     // const [domLoaded, setdomLoaded] = useState(false)
+    const [itemHoverActive, setItemHoverActive] = useState(0)
 
     useEffect(() => {
         // setdomLoaded(true)
@@ -243,6 +244,10 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
     function generatePath(grand_p: string, parent: string, child: string) {
         return `/category/${slugify(grand_p)}/${parent}/${slugify(child)}`
     }
+    const x = motionValue(0)
+
+    animate(x, 0, { duration: 0.1 })
+
     return (
         <div className='bg-white md:block hidden'>
             <NavigationMenu.Root className="max-w-[1440px] mx-auto relative">
@@ -284,7 +289,7 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
 
                             {/* <div className="z-30 absolute border-t border group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0  transition-opacity duration-300 left-0 right-0 bg-white "> */}
                             <div className="grid grid-cols-12">
-                                <div className=" xl:col-span-2 col-span-3">
+                                <div className=" xl:col-span-2 col-span-3 ">
                                     {data.data.map((item: any, i: number) => (
                                         <button onMouseOver={() => {
                                             setSubCatIndex(0)
@@ -292,45 +297,58 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                                             data.data.slice(hoverIndex, hoverIndex + 1).map((item: any, i: number) => (item.children.slice(subCatIndex, subCatIndex + 1).map((itm: any) => (
                                                 fetchTopBrandsData(`categories=${itm.slug}`, itm.slug)
                                             ))))
-                                        }} className={`py-1 border-white border-b  w-full flex justify-between px-2 text-sm items-center bg-slate-200/80  hover:bg-slate-100 duration-200 transition-colors  ${hoverIndex === i ? '!bg-slate-100 font-semibold' : ""}`}>
-                                            <div className="space-x-2 flex items-center">
+                                            setItemHoverActive(0)
+                                        }} className={`relative py-1 w-full flex justify-between px-2 text-sm items-center  `}>
+                                            {hoverIndex === i ?
+                                                <motion.div
+                                                    style={{ x }}
+                                                    className="bg-slate-200 absolute left-0 right-0 h-full bottom-0 z-0 rounded-lg" layoutId="underline" />
+                                                : null}
+                                            <div className="space-x-2 flex items-center z-10">
                                                 <div className="h-[50px] w-[50px]  border-[3px] border-slate-300/50 rounded-full">
                                                     <Image src={`/images/${slugify(item.name)}.webp`} width={50} height={50} className="rounded-full w-full" alt={item.name} />
                                                 </div>
                                                 <div className={` text-[13px] whitespace-nowrap `} >{item.name}</div>
                                             </div>
-                                            <ChevronRightIcon className="w-3 h-3" />
+                                            <ChevronRightIcon className="w-3 h-3 z-10" />
                                         </button>
                                     ))}
                                 </div>
-                                <div className="col-span-3 xl:col-span-2  bg-white overflow-y-auto overflow-x-hidden h-[415px]">
+                                <div className="col-span-3 xl:col-span-2  bg-slate-100 overflow-y-auto overflow-x-hidden h-[415px] ">
                                     {data.data.slice(hoverIndex, hoverIndex + 1).map((item: any) => (
                                         item.children.map((itm: any, i: number) => (
                                             <button onMouseOver={() => {
                                                 setSubCatIndex(i)
                                                 fetchTopBrandsData(`categories=${itm.slug}`, itm.slug)
-                                            }} className={`py-1 border-white border-b flex px-4 whitespace-nowrap justify-between w-full bg-slate-100 hover:bg-white duration-100 transition-colors text-sm items-center ${subCatIndex === i ? 'bg-white font-semibold' : ""}`}>
-                                                <div className="space-x-2 flex items-center" >
+                                                setItemHoverActive(0)
+                                            }} className={`relative py-1  flex px-4 justify-between w-full   text-sm items-center `}>
+                                                {subCatIndex === i ?
+                                                    <motion.div className="bg-slate-200 absolute left-0 right-0 h-full  z-0 rounded-lg" layoutId="layoutIdunique" />
+                                                    : null}
+                                                <div className="space-x-2 flex items-center z-10" >
                                                     <div className="h-[50px] w-[50px] border-[3px] border-slate-200 rounded-full">
                                                         <Image src={itm.sections[0] && itm.sections[0].images.logo ? itm.sections[0].images.logo : "/images/default-product-image.png"} height={50} width={50} alt={itm.name} className="w-full rounded-full" />
                                                     </div>
                                                     <h5 className="text-[13px]">{itm.name}</h5>
                                                 </div>
-                                                <ChevronRightIcon className="w-3 h-3" />
+                                                <ChevronRightIcon className="w-3 h-3 z-10" />
                                             </button>
                                         ))
                                     ))}
                                 </div>
                                 <div className=" xl:col-span-8 col-span-6  px-4 bg-white max-h-[413px] ">
                                     {/* <h3 className="font-semibold text-center ">CATEGORIES</h3> */}
-                                    <div className="grid xl:grid-cols-4 grid-cols-3 gap- py-2 relative overflow-y-auto max-h-[270px]">
+                                    <div className="grid xl:grid-cols-4 grid-cols-3 gap- py-2 relative overflow-x-hidden overflow-y-auto max-h-[270px]">
                                         {data.data.slice(hoverIndex, hoverIndex + 1).map((item: any, i: number) => (
                                             item.children.slice(subCatIndex, subCatIndex + 1).map((itm: any) => (
-                                                itm.sections.map((sec: any) => (
+                                                itm.sections.map((sec: any, indx: number) => (
                                                     sec.images.logo ?
-                                                        <Link className=" group/catImage lg:flex block  items-center hover:bg-slate-100 p-3 rounded-xl hover:font-bold " href={generatePath(item.name, itm.slug, sec.name)}>
-                                                            <Image src={sec.images.logo} alt={sec.name} width={50} height={50} className="group-hover/catImage:scale-110 duration-200 group-hover/catImage:border-blue-200  transition-transform lg:mx-0 mx-auto border-muted border-4 rounded-full max-h-[60px] max-w-[60px]" />
-                                                            <p className=" text-xs lg:ml-3 ml-0 lg:text-left text-center lg:mt-0 mt-3 text-black" style={{ wordBreak: "break-all" }} >{sec.name}</p>
+                                                        <Link onMouseOver={() => setItemHoverActive(indx)} className=" group/catImage relative lg:flex block  items-center p-3 rounded-xl hover:font-bold " href={generatePath(item.name, itm.slug, sec.name)}>
+                                                            <Image src={sec.images.logo} alt={sec.name} width={50} height={50} className={`z-10 ${itemHoverActive === indx ? "border-blue-200 scale-110" : "border-muted"} lg:mx-0 mx-auto  border-4 rounded-full max-h-[60px] max-w-[60px]`} />
+                                                            <p className="z-10 text-xs lg:ml-3 ml-0 lg:text-left text-center lg:mt-0 mt-3 text-black" style={{ wordBreak: "break-all" }} >{sec.name}</p>
+                                                            {itemHoverActive === indx ?
+                                                                <motion.div className="bg-slate-200 absolute left-0 right-0 h-full  z-0 rounded-lg" layoutId="itemsLayouts" />
+                                                                : null}
                                                         </Link>
                                                         : null
                                                 ))

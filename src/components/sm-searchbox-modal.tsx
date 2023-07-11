@@ -97,9 +97,9 @@ export const SmSearchBoxModal: FC<SmSearchBoxModalProps> = ({ searchClosebtn, sh
                                                 <p className="mx-3 my-auto">{pro_data.title} </p>
                                             </div>
                                         )) : <div className='mx-auto w-fit p-2'>
-                                        <Image src="/images/no-products-found.png" alt="no-search-results" width={150} height={150} />
-                                        <p className='text-center'>Oops! Products Found</p>
-                                    </div>}
+                                            <Image src="/images/no-products-found.png" alt="no-search-results" width={150} height={150} />
+                                            <p className='text-center'>Oops! Products Found</p>
+                                        </div>}
                                     </div>
                                 </> : <div role="status" className="max-w-full animate-pulse">
                                     <div className="group-search mb-5">
@@ -127,7 +127,6 @@ export const SmSearchBoxModal: FC<SmSearchBoxModalProps> = ({ searchClosebtn, sh
                     </div>
                 </div>
             </Dialog.Panel>
-
         </ModalContainer>
     )
 }

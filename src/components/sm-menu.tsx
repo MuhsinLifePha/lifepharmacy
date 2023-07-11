@@ -7,7 +7,7 @@ const SmMenu = ({ setSmScreenSearchBox, searchButtonOnClick }: { setSmScreenSear
         router.push(url)
     }
     return (
-        <div className="fixed bottom-0 left-0 right-0 md:hidden border-t border-gray-300   backdrop-blur-sm bg-opacity-95 bg-slate-100 sm:h-14 h-16 py-1 items-center z-30">
+        <div className="fixed bottom-0 left-0 right-0 md:hidden border-t border-gray-300   backdrop-blur-sm bg-opacity-95 bg-slate-100 sm:h-14 h-16 py-1 items-center z-30 ">
             <div className="flex justify-between sm:px-8 px-6">
                 <div>
                     <input defaultChecked={true} id="homeSmMenu" type="radio" className="hidden peer" name="smMenu" />

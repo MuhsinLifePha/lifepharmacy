@@ -149,6 +149,9 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, isArabic, lang }) => {
         lgScreenSearchBox.classList.add("rounded-b-none", "rounded-3xl");
       }
     }
+    else {
+      setSmScreenSearchBox(true)
+    }
     searchButtonOnMouseEnter(queryData)
   }
 
@@ -235,7 +238,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, isArabic, lang }) => {
           </LgNavbar>
           <NavbarBottom locationOnClickHandle={locationOnClickHandle} AddressDataIndex={AddressDataIndex} />
           {/* <LgNavbarMenu setOverlay={setOverlay} data={data} brands_data={brands_data} /> */}
-        <LgNavbarMenu data={data} setOverlay={setOverlay} brands_data={brands_data}/>
+          <LgNavbarMenu data={data} setOverlay={setOverlay} brands_data={brands_data} />
         </div>
       </div>
 
@@ -263,7 +266,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, isArabic, lang }) => {
       }
 
       <button className="fixed bottom-7 right-7 z-50 bg-[#2000F0] text-white p-3 rounded-full">
-      <svg color="inherit" viewBox="0 0 32 32" className="w-8 h-8"><path fill="#FFFFFF" d="M12.63,26.46H8.83a6.61,6.61,0,0,1-6.65-6.07,89.05,89.05,0,0,1,0-11.2A6.5,6.5,0,0,1,8.23,3.25a121.62,121.62,0,0,1,15.51,0A6.51,6.51,0,0,1,29.8,9.19a77.53,77.53,0,0,1,0,11.2,6.61,6.61,0,0,1-6.66,6.07H19.48L12.63,31V26.46"></path><path fill="#2000F0" d="M19.57,21.68h3.67a2.08,2.08,0,0,0,2.11-1.81,89.86,89.86,0,0,0,0-10.38,1.9,1.9,0,0,0-1.84-1.74,113.15,113.15,0,0,0-15,0A1.9,1.9,0,0,0,6.71,9.49a74.92,74.92,0,0,0-.06,10.38,2,2,0,0,0,2.1,1.81h3.81V26.5Z" className="w-10 h-10"></path></svg>
+        <svg color="inherit" viewBox="0 0 32 32" className="w-8 h-8"><path fill="#FFFFFF" d="M12.63,26.46H8.83a6.61,6.61,0,0,1-6.65-6.07,89.05,89.05,0,0,1,0-11.2A6.5,6.5,0,0,1,8.23,3.25a121.62,121.62,0,0,1,15.51,0A6.51,6.51,0,0,1,29.8,9.19a77.53,77.53,0,0,1,0,11.2,6.61,6.61,0,0,1-6.66,6.07H19.48L12.63,31V26.46"></path><path fill="#2000F0" d="M19.57,21.68h3.67a2.08,2.08,0,0,0,2.11-1.81,89.86,89.86,0,0,0,0-10.38,1.9,1.9,0,0,0-1.84-1.74,113.15,113.15,0,0,0-15,0A1.9,1.9,0,0,0,6.71,9.49a74.92,74.92,0,0,0-.06,10.38,2,2,0,0,0,2.1,1.81h3.81V26.5Z" className="w-10 h-10"></path></svg>
       </button>
     </>
   );

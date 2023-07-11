@@ -150,7 +150,6 @@ const LgScreenSubMenu = ({ countries, languages, setLanguageModal, setLocationMo
                                     <button className="bg-[#39f] px-3 py-1 w-full">CHECK OUT</button>
                                 </div>
                             </div>
-
                         </CommandDemo>
 
                     </div>
