@@ -18,8 +18,11 @@ import LgNavbar from "./lg-navbar";
 import SmNavbarTop from "./sm-navbar-top";
 import getSearchDataSuggestions from "@/lib/getSearchData";
 import NavbarBottom from "./lg-navbar-top";
-import LgNavbarMenu from "./lg-navbar-menu";
-
+import dynamic from 'next/dynamic'
+ 
+const LgNavbarMenu = dynamic(() => import('./lg-navbar-menu'), {
+  ssr: false,
+})
 interface navbarProps {
   data: any,
   brands_data: any,
