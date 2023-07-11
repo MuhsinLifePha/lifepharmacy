@@ -201,7 +201,7 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
     const { width } = useWindowDimensions()
     const [groupHoverState, setGroupHover] = useState(false)
     // const [domLoaded, setdomLoaded] = useState(false)
-    const [itemHoverActive, setItemHoverActive] = useState(0)
+    const [itemHoverActive, setItemHoverActive] = useState<any>(null)
 
     useEffect(() => {
         // setdomLoaded(true)
@@ -297,39 +297,39 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                                             data.data.slice(hoverIndex, hoverIndex + 1).map((item: any, i: number) => (item.children.slice(subCatIndex, subCatIndex + 1).map((itm: any) => (
                                                 fetchTopBrandsData(`categories=${itm.slug}`, itm.slug)
                                             ))))
-                                            setItemHoverActive(0)
+                                            setItemHoverActive(null)
                                         }} className={`relative py-1 w-full flex justify-between px-2 text-sm items-center  `}>
                                             {hoverIndex === i ?
                                                 <motion.div
                                                     style={{ x }}
-                                                    className="bg-slate-200 absolute left-0 right-0 h-full bottom-0 z-0 rounded-lg" layoutId="underline" />
+                                                    className="bg-slate-100 absolute left-0 right-0 h-full bottom-0 z-0" layoutId="underline" />
                                                 : null}
                                             <div className="space-x-2 flex items-center z-10">
-                                                <div className="h-[50px] w-[50px]  border-[3px] border-slate-300/50 rounded-full">
+                                                <div className="h-[50px] w-[50px]  border-2 border-slate-300/50 rounded-full">
                                                     <Image src={`/images/${slugify(item.name)}.webp`} width={50} height={50} className="rounded-full w-full" alt={item.name} />
                                                 </div>
-                                                <div className={` text-[13px] whitespace-nowrap `} >{item.name}</div>
+                                                <div className={` text-[12px] whitespace-nowrap `} >{item.name}</div>
                                             </div>
                                             <ChevronRightIcon className="w-3 h-3 z-10" />
                                         </button>
                                     ))}
                                 </div>
-                                <div className="col-span-3 xl:col-span-2  bg-slate-100 overflow-y-auto overflow-x-hidden h-[415px] ">
+                                <div className="col-span-3 xl:col-span-2 bg-slate-100 overflow-y-auto overflow-hidden h-[415px]  ">
                                     {data.data.slice(hoverIndex, hoverIndex + 1).map((item: any) => (
                                         item.children.map((itm: any, i: number) => (
                                             <button onMouseOver={() => {
                                                 setSubCatIndex(i)
                                                 fetchTopBrandsData(`categories=${itm.slug}`, itm.slug)
-                                                setItemHoverActive(0)
-                                            }} className={`relative py-1  flex px-4 justify-between w-full   text-sm items-center `}>
+                                                setItemHoverActive(null)
+                                            }} className={`relative py-1  flex px-4 justify-between w-full text-sm items-center`}>
                                                 {subCatIndex === i ?
-                                                    <motion.div className="bg-slate-200 absolute left-0 right-0 h-full  z-0 rounded-lg" layoutId="layoutIdunique" />
+                                                    <motion.div className="bg-slate-200 absolute left-0 right-0 h-full  z-0" layoutId="layoutIdunique" />
                                                     : null}
-                                                <div className="space-x-2 flex items-center z-10" >
-                                                    <div className="h-[50px] w-[50px] border-[3px] border-slate-200 rounded-full">
+                                                <div className="space-x-2 flex items-center z-10 " >
+                                                    <div className="h-[50px] w-[50px] border-2 border-slate-200 rounded-full">
                                                         <Image src={itm.sections[0] && itm.sections[0].images.logo ? itm.sections[0].images.logo : "/images/default-product-image.png"} height={50} width={50} alt={itm.name} className="w-full rounded-full" />
                                                     </div>
-                                                    <h5 className="text-[13px]">{itm.name}</h5>
+                                                    <div className="text-[12px] lg:max-w-[130px] md:max-w-[95px]  overflow-hidden inline-block text-ellipsis whitespace-nowrap">{itm.name}</div>
                                                 </div>
                                                 <ChevronRightIcon className="w-3 h-3 z-10" />
                                             </button>
@@ -344,10 +344,10 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                                                 itm.sections.map((sec: any, indx: number) => (
                                                     sec.images.logo ?
                                                         <Link onMouseOver={() => setItemHoverActive(indx)} className=" group/catImage relative lg:flex block  items-center p-3 rounded-xl hover:font-bold " href={generatePath(item.name, itm.slug, sec.name)}>
-                                                            <Image src={sec.images.logo} alt={sec.name} width={50} height={50} className={`z-10 ${itemHoverActive === indx ? "border-blue-200 scale-110" : "border-muted"} lg:mx-0 mx-auto  border-4 rounded-full max-h-[60px] max-w-[60px]`} />
+                                                            <Image src={sec.images.logo} alt={sec.name} width={50} height={50} className={`z-10 ${itemHoverActive === indx ? "scale-110" : "border-muted"} lg:mx-0 mx-auto  border-4 rounded-full max-h-[60px] max-w-[60px]`} />
                                                             <p className="z-10 text-xs lg:ml-3 ml-0 lg:text-left text-center lg:mt-0 mt-3 text-black" style={{ wordBreak: "break-all" }} >{sec.name}</p>
                                                             {itemHoverActive === indx ?
-                                                                <motion.div className="bg-slate-200 absolute left-0 right-0 h-full  z-0 rounded-lg" layoutId="itemsLayouts" />
+                                                                <motion.div className="bg-slate-200/60 absolute left-0 right-0 h-full  z-0 rounded-lg" layoutId="itemsLayouts" />
                                                                 : null}
                                                         </Link>
                                                         : null
@@ -445,16 +445,14 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                     <NavigationMenu.Item className="w-full xl:col-span-1 col-span-2">
                         <NavigationMenu.Link href="/packages"
                             className="w-full group flex  select-none  underline-tra hover:text-blue-500 items-center justify-center rounded-[4px] px-3  text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
-
                             <Image src={"https://www.lifepharmacy.com/images/appointments.svg"} className="w-5 h-5 my-2 float-left mr-3" width={24} height={24} alt="appointments" />
-
                             <h6 className="whitespace-nowrap"> Packages</h6>
                         </NavigationMenu.Link>
                     </NavigationMenu.Item>
 
 
                     <NavigationMenu.Indicator className="data-[state=visible]:animate-fadeIn data-[state=hidden]:animate-fadeOut top-full z-[1] flex h-[10px] items-end justify-center overflow-hidden transition-[width,transform_250ms_ease]">
-                        <div className="relative top-[70%] h-[10px] w-[10px] rotate-[45deg] rounded-tl-[2px] bg-white" />
+                        <div className="relative top-[100%] h-[17px] w-[17px] rotate-[45deg] rounded-tl-[2px] bg-white" />
                     </NavigationMenu.Indicator>
                 </NavigationMenu.List>
 
