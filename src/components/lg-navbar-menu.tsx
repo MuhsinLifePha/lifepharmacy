@@ -250,7 +250,7 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
 
     return (
         <div className='bg-white md:block hidden '>
-            <NavigationMenu.Root className="max-w-[1440px] mx-auto relative shadow-sm">
+            <NavigationMenu.Root className="max-w-[1440px] mx-auto relative shadow-md">
                 <NavigationMenu.List className="center m-0  list-none grid grid-cols-12 items-center ">
                     <NavigationMenu.Item onMouseOver={() => {
                         setOverlay(true)

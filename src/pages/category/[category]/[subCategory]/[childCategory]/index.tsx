@@ -9,7 +9,7 @@ const ChildCategory = ({ params, categoryData, filterPath, selectedBrands }: { p
         });
         return catDataArray;
     }
-    return <ProductsPage filterPath={filterPath} isSearchPage={false} categoryData={categoryData} menuData={getMenuData([params.category, params.subCategory, params.childCategory])} selectedBrands={selectedBrands} type={"category"}/>
+    return <ProductsPage filterPath={filterPath} isSearchPage={false} categoryData={categoryData} menuData={getMenuData([params.category, params.subCategory, params.childCategory])} selectedBrands={selectedBrands} type={"category"} isBrandsPage={false}/>
 }
 
 export default ChildCategory
