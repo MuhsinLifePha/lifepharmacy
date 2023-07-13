@@ -40,7 +40,6 @@ const BrandsProductsPage = ({ data, menuData, brandPara }: { data: any, menuData
                             </div>
                         )
                         )}
-
                     </div>
                     <div className="col-span-3">
                         <div className={`grid ${isRowView? "!grid-cols-1 !gap-0" : ""} xl:grid-cols-4 lg:grid-cols-3  md:grid-cols-2 min-[300px]:grid-cols-2 grid-cols-1 sm:gap-3 gap-1`}>
@@ -55,7 +54,6 @@ const BrandsProductsPage = ({ data, menuData, brandPara }: { data: any, menuData
                                     <h1 className="text-blue-500 text-center py-2">No Products Found</h1>
                                 </div>
                             }
-
                         </div>
                     </div>
                 </div>

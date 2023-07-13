@@ -11,8 +11,11 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { ProductsSkeleton } from "./productsSkeleton";
 
 import * as Slider from '@radix-ui/react-slider';
-const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, selectedBrands, menuData }: { isSearchPage: boolean, selectedBrands: any, categoryData: any, brandsData: any, filterPath: any, menuData: any }) => {
+import getBrandProductData from "@/lib/getBrandProductData";
+import Link from "next/link";
+const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, selectedBrands, menuData, isBrandsPage }: { isSearchPage: boolean, selectedBrands: any, categoryData: any, brandsData: any, filterPath: any, menuData: any, isBrandsPage: boolean }) => {
 
+    const { query } = useRouter()
 
     const [noOfProducts, setNoOfProducts] = useState(40)
     const [animateSpin, setAnimateSpin] = useState(false)
@@ -23,9 +26,10 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
 
         }]
     })
+
+    // const [activeElementIndx, setActiveElementIndx] = useState(query.singleCategory? null: 0)
     const [isRowView, setIsRowView] = useState(false)
     const [rangeSliderValue, setRangeSliderValue] = useState([50])
-    const router = useRouter()
 
     var brandsSelected: string[] = []
 
@@ -42,8 +46,8 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
 
     const [selectedFilter, setFilter] = useState(filters[0])
     const { locale } = useLanguage();
-    var productsData = categoryData.products
-    const [data, setData] = useState(productsData)
+
+    const [data, setData] = useState<any>([])
 
     function slugify(text: string) {
         return text.toLowerCase().replace(/[\/\s&]+/g, '-');
@@ -51,11 +55,6 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
 
     function generatePath(grand_p: string, parent: string, child: string) {
         return `/category/${slugify(grand_p)}/${parent}/${slugify(child)}`
-    }
-
-
-    const routerPathReplace = (url: string, newUrl: string) => {
-        router.push(router.asPath.replace(url, newUrl))
     }
 
     const addBrand = (value: string) => {
@@ -69,7 +68,6 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
             // router.push(router.asPath + `&brands=${brandsSelected}`)
         }
     };
-
 
     const removeBrand = (value: string) => {
         brandsSelected = [...brandsSelected, ...preSelectedBrands]
@@ -106,26 +104,46 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
         }
 
         setProductsFilterApplied(true);
-        debugger
         fetchData(typeGenerate(menuData[0]), 0, false, (type === "order_by" ? `&${type}=${value}` : "") + (type === "brands" && brandsSelected.length > 0 ? `&${type}=${value}` : ""))
     }
 
-    function fetchData(query: any, noOfProducts: number, loadMoreData: boolean, filterPaths: string) {
+    function fetchData(queryData: any, noOfProducts: number, loadMoreData: boolean, filterPaths: string) {
+        debugger
+        if (!isBrandsPage) {
+            getProductsDataByCat(filterPath + filterPaths, noOfProducts, queryData === null ? true : false, locale).then(
+                (proData: any) => {
+                    if (loadMoreData) {
+                        setData((prevContent: any) => [...prevContent, ...proData.data.products])
+                        setAnimateSpin(false)
+                        if (proData.data.products.length != 40) {
+                            setShowMoreProductsbtn(false)
+                        }
+                    }
+                    else {
+                        setData(proData.data.products)
+                        setProductsFilterApplied(false);
+                    }
+                }
+            )
+        }
+        else {
+            getBrandProductData(query.brand, query.singleCategory ? query.singleCategory : "", filterPath, noOfProducts, locale).then(
+                (brandsProductsData: any) => {
+                    if (loadMoreData) {
+                        setData((prevContent: any) => [...prevContent, ...brandsProductsData.data.products])
+                        setAnimateSpin(false)
+                        if (brandsProductsData.data.products != 40) {
+                            setShowMoreProductsbtn(false)
+                        }
+                    }
+                    else {
+                        setData(brandsProductsData.data.products)
+                        setProductsFilterApplied(false);
+                    }
+                }
+            )
+        }
 
-        getProductsDataByCat(filterPath + filterPaths, noOfProducts, query === null ? true : false, locale).then(
-            (proData: any) => {
-                if (loadMoreData) {
-                    debugger
-                    setData([...data, ...proData.data.products])
-                    setAnimateSpin(false)
-                    setShowMoreProductsbtn(false)
-                }
-                else {
-                    setData(proData.data.products)
-                    setProductsFilterApplied(false);
-                }
-            }
-        )
     }
 
     useEffect(() => {
@@ -144,7 +162,7 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
             {!isSearchPage ?
                 <div className="flex justify-between py-3">
                     <div className="h-fit my-auto">
-                        <p className="sm:text-sm text-xs">Showing <span className="text-black">{noOfProducts}</span> of <span className="text-black ">{categoryData.total_count}</span> Products</p>
+                        <p className="sm:text-sm text-xs">Showing <span className="text-black">{categoryData.products.length}</span> of <span className="text-black ">{data.length === 0 ? categoryData.products.total_count ? categoryData.products.total_count : noOfProducts : data.length}</span> Products</p>
                     </div>
                     <div className=" items-center md:flex hidden">
                         <div className="relative inline-block text-left group/sort-menu">
@@ -190,7 +208,7 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
                 <h2 id="products-heading" className="sr-only">Products</h2>
 
                 <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-                    {!isSearchPage ?
+                    {!isSearchPage && !isBrandsPage ?
                         <form className="hidden lg:block divide-y top-40">
                             {catData.data[1] ?
                                 <>
@@ -235,25 +253,26 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
                                             ))}
                                         </AccordionItem>
                                     </Accordion.Root>
+                                    {brandsData ?
+                                        <Accordion.Root
+                                            className=""
+                                            type="single"
+                                            defaultValue="item-1"
+                                            collapsible>
+                                            <AccordionItem className="py-2" value="item-1">
+                                                <AccordionTrigger className="font-bold">Brands</AccordionTrigger>
+                                                <AccordionContent className="" >
 
-                                    <Accordion.Root
-                                        className=""
-                                        type="single"
-                                        defaultValue="item-1"
-                                        collapsible>
-                                        <AccordionItem className="py-2" value="item-1">
-                                            <AccordionTrigger className="font-bold">Brands</AccordionTrigger>
-                                            <AccordionContent className="" >
-                                                {brandsData ?
-                                                    brandsData.map((brand: any) => (
+                                                    {brandsData.map((brand: any) => (
                                                         brand.featured === true ?
                                                             <BrandsButton selectedBrands={selectedBrands} brandName={brand.name} filterSet={filterSet} />
                                                             : null
-                                                    ))
-                                                    : null}
-                                            </AccordionContent>
-                                        </AccordionItem>
-                                    </Accordion.Root>
+                                                    ))}
+
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                        </Accordion.Root>
+                                        : null}
                                 </>
                                 : null}
 
@@ -293,22 +312,41 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
                                 </AccordionItem>
                             </Accordion.Root>
                         </form>
-                        : null}
+                        : <div className="hidden lg:block space-y-2">
+                            <h1 className="font-bold">Category</h1>
+                            {categoryData.categories.map((cat_data: any, indx: number) => (
+                                <div className="flex justify-between text-gray-800 text-sm">
+                                    <Link href={`/brand/${query.brand}/${cat_data.slug}`}  className={`${query.singleCategory  ? query.singleCategory === cat_data.slug ?"text-blue-500" : "": indx===0?"text-blue-500":""} hover:text-blue-500`}>{cat_data.name}</Link>
+                                    <div>{cat_data.count}</div>
+                                </div>
+                            )
+                            )}
+                        </div>}
                     <div className={`${isSearchPage ? ' col-span-full' : "col-span-3"}`}>
                         <div className={`grid ${isRowView ? "!grid-cols-1 !gap-0" : ""} ${isSearchPage ? "xl:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 " : "  md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1"}  xs:grid-cols-2 grid-cols-1 sm:gap-3 gap-1`}>
-                            {data.length > 0 ? data.map((pro_data: any) => (
-                                productFilterApplied ?
-                                    skeletonArray.map(sk =>
-                                        sk
-                                    ) :
-                                    <SingleProductData pro_data={pro_data} isRowView={isRowView} />
-                            ))
-                                : <div className="w-full col-span-3">
-                                    <h1 className="text-blue-500 text-center py-2">No Products Found</h1>
-                                </div>
+                            {selectedFilter.name === "popularity" ?
+                                categoryData.products.length > 0 ? categoryData.products.map((pro_data: any) => (
+                                    productFilterApplied ?
+                                        skeletonArray.map(sk =>
+                                            sk
+                                        ) :
+                                        <SingleProductData pro_data={pro_data} isRowView={isRowView} />
+                                ))
+                                    : <div className="w-full col-span-3">
+                                        <h1 className="text-blue-500 text-center py-2">No Products Found</h1>
+                                    </div>
+                                :
+                                data &&
+                                data.map((pro_data: any) => (
+                                    productFilterApplied ?
+                                        skeletonArray.map(sk =>
+                                            sk
+                                        ) :
+                                        <SingleProductData pro_data={pro_data} isRowView={isRowView} />
+                                ))
                             }
                         </div>
-                        {showMoreProductsbtn && productsData.length > 0 ?
+                        {categoryData.products.length === 40 && showMoreProductsbtn ?
                             <div className='w-full flex justify-center mt-10'>
                                 <button onClick={() => { loadMoreProducts() }} className='border-slate-300 flex items-center border  px-3 py-2  rounded-full hover:bg-[#39f] hover:text-white transition-all duration-300'>
                                     <div className='mx-3 text-sm  items-center'>More Products</div>

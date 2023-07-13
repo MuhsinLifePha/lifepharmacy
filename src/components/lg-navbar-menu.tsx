@@ -219,7 +219,7 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
             const fetchDataTimer = setTimeout(() => {
                 getProductsDataByCat(filterPath, 0, false, locale).then(data => {
                     setTopBrandsData([...topBrandsData, { brands: [...data.data.brands], type: path }])
-                    console.log(topBrandsData);
+                    // console.log(topBrandsData);
 
                     setTopBrandsLoadingState(false)
 
@@ -249,8 +249,8 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
     animate(x, 0, { duration: 0.1 })
 
     return (
-        <div className='bg-white md:block hidden'>
-            <NavigationMenu.Root className="max-w-[1440px] mx-auto relative">
+        <div className='bg-white md:block hidden '>
+            <NavigationMenu.Root className="max-w-[1440px] mx-auto relative shadow-sm">
                 <NavigationMenu.List className="center m-0  list-none grid grid-cols-12 items-center ">
                     <NavigationMenu.Item onMouseOver={() => {
                         setOverlay(true)
@@ -343,7 +343,7 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                                             item.children.slice(subCatIndex, subCatIndex + 1).map((itm: any) => (
                                                 itm.sections.map((sec: any, indx: number) => (
                                                     sec.images.logo ?
-                                                        <Link onMouseOver={() => setItemHoverActive(indx)} className=" group/catImage relative lg:flex block  items-center p-3 rounded-xl hover:font-bold " href={generatePath(item.name, itm.slug, sec.name)}>
+                                                        <Link onMouseOver={() => setItemHoverActive(indx)} className=" group/catImage relative lg:flex block  items-center p-3 rounded-xl" href={generatePath(item.name, itm.slug, sec.name)}>
                                                             <Image src={sec.images.logo} alt={sec.name} width={50} height={50} className={`z-10 ${itemHoverActive === indx ? "scale-110" : "border-muted"} lg:mx-0 mx-auto  border-4 rounded-full max-h-[60px] max-w-[60px]`} />
                                                             <p className="z-10 text-xs lg:ml-3 ml-0 lg:text-left text-center lg:mt-0 mt-3 text-black" style={{ wordBreak: "break-all" }} >{sec.name}</p>
                                                             {itemHoverActive === indx ?

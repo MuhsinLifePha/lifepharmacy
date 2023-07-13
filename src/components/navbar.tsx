@@ -230,7 +230,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, isArabic, lang }) => {
 
     <>
 
-      <div className="sticky top-0 z-50 bg-white mx-auto ">
+      <div className="sticky top-0 z-50 bg-white mx-auto">
         <SmNavbarTop />
         <div className="md:bg-[#002579] bg-white  backdrop-blur backdrop-filter ">
           <LgNavbar searchData={searchData} SearchLoadingState={SearchLoadingState} queryData={queryData} isArabic={isArabic} searchSuggestions={searchSuggestions} searchButtonOnMouseEnter={searchButtonOnMouseEnter} setLanguageModal={setLanguageModal} setLocationModal={setLocationModal} searchButtonOnClick={searchButtonOnClick}>

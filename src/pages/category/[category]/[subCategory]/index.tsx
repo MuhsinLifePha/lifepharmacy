@@ -10,7 +10,7 @@ const SubCategory = ({ params, categoryData, filterPath, selectedBrands }: { par
         });
         return catDataArray;
     }
-    return <ProductsPage filterPath={filterPath} isSearchPage={false} categoryData={categoryData} menuData={getMenuData([params.category, params.subCategory])} selectedBrands={selectedBrands} type={"category"}/>
+    return <ProductsPage isBrandsPage={false} filterPath={filterPath} isSearchPage={false} categoryData={categoryData} menuData={getMenuData([params.category, params.subCategory])} selectedBrands={selectedBrands} type={"category"}/>
 }
 
 export default SubCategory

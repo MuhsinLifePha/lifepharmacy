@@ -9,8 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { incrementQuantity } from '../redux/cart.slice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import ProductImgLoader from './product-img-loader';
 import { useLanguage } from '@/hooks/useLanguage';
+import { Skeleton } from './ui/skeleton';
 export const SingleProductData = ({ pro_data, isRowView }: { pro_data: any, isRowView: boolean }) => {
     const { pathname } = useRouter()
     const cartItems = useSelector((state: RootState) => state.cart);
@@ -52,18 +52,16 @@ export const SingleProductData = ({ pro_data, isRowView }: { pro_data: any, isRo
         <>
 
             {pro_data && !isRowView ?
-                <div className="relative border border-muted rounded-lg bg-white" >
-                    <figure className='border border-muted m-2 rounded-lg relative'>
-                        <Link href={`/product/${pro_data.slug}`} className="   block bg-white  mx-auto rounded-lg rounded-b-none max-h-[200px] max-w-[200px]">
+                <div className="relative border border-muted rounded-lg bg-white  max-w-[250px]" >
+                    <figure className='border border-muted m-2 rounded-lg relative '>
+                        <Link href={`/product/${pro_data.slug}`} className="   block bg-white  rounded-lg rounded-b-none  relative">
 
                             {isValidImage ?
-                                <div className=''>
-                                    <Image onError={handleImageError} className={`rounded-lg mx-auto object-cover h-full w-full `} src={pro_data.images?.featured_image} width={200} height={200} alt="product_img" />
-                                </div>
+                                
+                                    <Image onError={handleImageError} className={`rounded-lg  object-cover h-full w-full max-h-[200px]`} src={pro_data.images?.featured_image} width={200} height={200} alt="product_img" />
+                               
                                 :
-                                <div className=' w-full h-full'>
-                                    <ProductImgLoader />
-                                </div>
+                                  <Skeleton className="h-[200px] w-full" />
                             }
                             <span className="flex absolute bg-amber-400 opacity-90 rounded-bl-lg px-[7px] py-[1px] bottom-0 left-0 rounded-tr-xl shadow-xl ">
                                 <div className="my-auto">
