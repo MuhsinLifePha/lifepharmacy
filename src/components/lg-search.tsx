@@ -1,12 +1,8 @@
 import { ChatBubbleOvalLeftIcon } from '@heroicons/react/20/solid'
-import { ChatBubbleIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 
 
 export default function LgSearchComponent({ searchData, searchSuggestions }: { searchData: any, searchSuggestions: any }) {
-
-    const router = useRouter()
 
     const productSuggestionList = Array(10).fill(
         <div role="status" className="mb-3 flex">

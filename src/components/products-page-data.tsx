@@ -113,6 +113,7 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
             getProductsDataByCat(filterPath + filterPaths, noOfProducts, queryData === null ? true : false, locale).then(
                 (proData: any) => {
                     if (loadMoreData) {
+
                         setData((prevContent: any) => [...prevContent, ...proData.data.products])
                         setAnimateSpin(false)
                         if (proData.data.products.length != 40) {
@@ -290,7 +291,6 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
                                             <div>Range: AED 0 — AED {rangeSliderValue}</div>
                                             <button className=" bg-slate-200 hover:bg-slate-300 text-sm w-fit px-2 p-1 rounded-full">Filter</button>
                                         </div>
-
                                         <Slider.Root
                                             className="relative flex items-center select-none touch-none w-full h-5 mt-5"
                                             defaultValue={[0]}
@@ -307,24 +307,24 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
                                                 aria-label="Volume"
                                             />
                                         </Slider.Root>
-
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion.Root>
                         </form>
-                        : <div className="hidden lg:block space-y-2">
-                            <h1 className="font-bold">Category</h1>
-                            {categoryData.categories.map((cat_data: any, indx: number) => (
-                                <div className="flex justify-between text-gray-800 text-sm">
-                                    <Link href={`/brand/${query.brand}/${cat_data.slug}`}  className={`${query.singleCategory  ? query.singleCategory === cat_data.slug ?"text-blue-500" : "": indx===0?"text-blue-500":""} hover:text-blue-500`}>{cat_data.name}</Link>
-                                    <div>{cat_data.count}</div>
-                                </div>
-                            )
-                            )}
-                        </div>}
-                    <div className={`${isSearchPage ? ' col-span-full' : "col-span-3"}`}>
+                        : !isSearchPage ?
+                            <div className="hidden lg:block space-y-2">
+                                <h1 className="font-bold">Category</h1>
+                                {categoryData.categories.map((cat_data: any, indx: number) => (
+                                    <div className="flex justify-between text-gray-800 text-sm">
+                                        <Link href={`/brand/${query.brand}/${cat_data.slug}`} className={`${query.singleCategory ? query.singleCategory === cat_data.slug ? "text-blue-500" : "" : indx === 0 ? "text-blue-500" : ""} hover:text-blue-500`}>{cat_data.name}</Link>
+                                        <div>{cat_data.count}</div>
+                                    </div>
+                                )
+                                )}
+                            </div> : null}
+                    <div className={`${isSearchPage ? ' col-span-full py-7' : "col-span-3"}`}>
                         <div className={`grid ${isRowView ? "!grid-cols-1 !gap-0" : ""} ${isSearchPage ? "xl:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 " : "  md:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1"}  xs:grid-cols-2 grid-cols-1 sm:gap-3 gap-1`}>
-                            {selectedFilter.name === "popularity" ?
+                            {
                                 categoryData.products.length > 0 ? categoryData.products.map((pro_data: any) => (
                                     productFilterApplied ?
                                         skeletonArray.map(sk =>
@@ -335,7 +335,8 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
                                     : <div className="w-full col-span-3">
                                         <h1 className="text-blue-500 text-center py-2">No Products Found</h1>
                                     </div>
-                                :
+                            }
+                            {selectedFilter.name === "popularity" &&
                                 data &&
                                 data.map((pro_data: any) => (
                                     productFilterApplied ?
@@ -357,7 +358,6 @@ const ProductsPageData = ({ filterPath, categoryData, brandsData, isSearchPage, 
                             </div>
                             : null}
                     </div>
-
                 </div>
             </div>
         </div >

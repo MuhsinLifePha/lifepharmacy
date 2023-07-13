@@ -19,7 +19,7 @@ import SmNavbarTop from "./sm-navbar-top";
 import getSearchDataSuggestions from "@/lib/getSearchData";
 import NavbarBottom from "./lg-navbar-top";
 import dynamic from 'next/dynamic'
- 
+
 const LgNavbarMenu = dynamic(() => import('./lg-navbar-menu'), {
   ssr: false,
 })
@@ -115,6 +115,7 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, isArabic, lang }) => {
 
 
   const searchSuggestions = (searchData: string, isMobile: boolean, type: string) => {
+    debugger
     if (isMobile) {
       setSmScreenSearchBox(false)
     }

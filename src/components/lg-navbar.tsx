@@ -16,7 +16,7 @@ const LgNavbar = ({ setLocationModal, searchButtonOnMouseEnter, SearchLoadingSta
       </Link>
       <div className="flex items-center w-full md:border-none border-2 rounded-lg md:rounded-none border-slate-200 " >
         <div className="relative w-full">
-          <div className="relative group-search cursor-pointer" id="lg-screen-search" onChange={(e) => { searchButtonOnMouseEnter((e.target as HTMLInputElement).value) }} onKeyDown={(e) => e.key === "Enter" ? searchButtonOnClick(false) : null} onMouseDown={(e) => { searchButtonOnClick(true) }}   >
+          <div className="relative group-search cursor-pointer" id="lg-screen-search" onChange={(e) => { searchButtonOnMouseEnter((e.target as HTMLInputElement).value) }}  onMouseDown={(e) => { searchButtonOnClick(true) }}   >
             <div className={`absolute inset-y-0  flex items-center pointer-events-none ${isArabic ? 'right-0 pr-3 ' : 'left-0 pl-3'}`}>
               <svg aria-hidden="true" className="w-5 h-5 text-gray-500 mr-3" fill="currentColor"
                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

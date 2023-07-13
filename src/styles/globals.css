@@ -54,14 +54,6 @@ li:hover>ul {
     transform: translatex(101%) scale(1)
 }
 
-/* li>button svg {
-    transform: rotate(-90deg);
-} */
-
-/* li:hover>button svg {
-  transform: rotate(-270deg)
-} */
-
 .group:hover .group-hover\:scale-100 {
     transform: scale(1)
 }
@@ -78,10 +70,6 @@ li:hover>ul {
     min-width: 8rem
 }
 
-/* .group:hover .list0>ul{transform:translatex(100%) scale(1) !important} */
-
-
-
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
@@ -91,13 +79,6 @@ li:hover>ul {
     transition: ease-in width 1s;
 }
 
-/* .group\/btn:hover .group-hover\/btn\ {
-    @apply 
-
-} */
-/* .group-btn:hover .single-btn {
-   
-} */
 
 .search-suggestion-height {
     max-height: calc(90vh - 120px);
