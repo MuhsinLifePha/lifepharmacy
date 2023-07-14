@@ -1,4 +1,4 @@
-import ModalContainer from "./modal-container"
+import ModalContainer from "./ui/modal-container"
 import { Dialog } from "@headlessui/react"
 
 const InvalidOTPModal = ({ showModal, setCloseModal }: { showModal: any, setCloseModal: any }) => {

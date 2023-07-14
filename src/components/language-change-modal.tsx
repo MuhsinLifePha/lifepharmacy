@@ -2,7 +2,7 @@ import { Dialog, Transition, RadioGroup } from '@headlessui/react'
 import { FC, Fragment, useState } from 'react'
 import Image from 'next/image'
 import { CheckCircleIcon, CheckIcon, ChevronLeftIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import TransitionComp from './transition'
+import TransitionComp from './ui/transition'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify';
 

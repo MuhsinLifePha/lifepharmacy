@@ -1,4 +1,4 @@
-import ModalContainer from "./modal-container"
+import ModalContainer from "./ui/modal-container"
 import { Dialog } from "@headlessui/react"
 import { FC } from "react"
 import { useLanguage } from "@/hooks/useLanguage"

@@ -241,7 +241,6 @@ const Navbar: FC<navbarProps> = ({ data, brands_data, isArabic, lang }) => {
               value={t.navbar.searchbox_text} />
           </LgNavbar>
           <NavbarBottom locationOnClickHandle={locationOnClickHandle} AddressDataIndex={AddressDataIndex} />
-          {/* <LgNavbarMenu setOverlay={setOverlay} data={data} brands_data={brands_data} /> */}
           <LgNavbarMenu data={data} setOverlay={setOverlay} brands_data={brands_data} />
         </div>
       </div>

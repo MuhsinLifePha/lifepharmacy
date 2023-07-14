@@ -1,4 +1,4 @@
-import ModalContainer from "./modal-container"
+import ModalContainer from "./ui/modal-container"
 import { useState } from "react"
 import { Dialog } from "@headlessui/react";
 import PhoneInput from "react-phone-number-input";

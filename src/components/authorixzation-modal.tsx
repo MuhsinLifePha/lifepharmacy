@@ -1,6 +1,6 @@
 import { Dialog, Transition, RadioGroup, Listbox } from "@headlessui/react";
 import { Fragment } from "react"
-import ModalContainer from "./modal-container";
+import ModalContainer from "./ui/modal-container";
 import { Tabs, Tab, TabsHeader, TabsBody, TabPanel } from "@material-tailwind/react"
 import PhoneInput from "react-phone-number-input";
 import { useState } from "react"

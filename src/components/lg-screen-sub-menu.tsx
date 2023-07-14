@@ -5,9 +5,6 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useSelector } from 'react-redux';
 import { RootState } from "../redux/store";
-import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
-import { removeFromCart } from "../redux/cart.slice";
 import { CommandDemo } from "./cmd-cart"
 
 const LgScreenSubMenu = ({ countries, languages, setLanguageModal, setLocationModal }: { countries: any, languages: any, setLanguageModal: any, setLocationModal: any }) => {
@@ -54,11 +51,6 @@ const LgScreenSubMenu = ({ countries, languages, setLanguageModal, setLocationMo
         return parseFloat(totalPrice.toString()).toFixed(2);
     };
 
-    const removedFromCart = () => {
-        toast.info(`Cart Suceesfully Updated`);
-    }
-
-    const dispatch = useDispatch();
 
     useEffect(() => {
         setDomLoaded(true)
@@ -114,29 +106,6 @@ const LgScreenSubMenu = ({ countries, languages, setLanguageModal, setLocationMo
                 {domLoaded && cartItems && cartItems.length > 0 ?
                     <div className="group-hover/cart:scale-100  scale-0 absolute w-[25rem] top-[3rem] right-0  rounded-lg px-3 py-2  h-fit  shadow-lg z-30">
 
-                        {/* {cartItems.map((item: any) => (
-                                <>
-                                    <div className="flex py-2">
-                                        <a href={`/product/${item.slug}`} className="w-3/4 text-sm  my-auto">{item.title}</a>
-                                        <div className="w-1/4 flex">
-                                            <a href={`/product/${item.slug}`} className="w-3/4">
-                                                <Image src={item.images.featured_image} height={100} width={100} className="w-full m-1" alt={item.title} />
-                                            </a>
-                                            <button onClick={() => {
-                                                dispatch(removeFromCart(item.id))
-                                                removedFromCart()
-                                            }
-                                            } className="w-1/4 ml-2 my-auto">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 fill-red-500">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                                </svg>
-                                            </button>
-                                        </div>
-
-                                    </div>
-                                    <div className="bg-gray-300 h-[1px] w-11/12 mx-auto mt-2"></div>
-                                </>
-                            ))} */}
                         <CommandDemo cartItems={cartItems}>
                             <div className="px-3">
                                 <div className="py-3">

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import TransitionComp from "./transition"
+import TransitionComp from "./ui/transition"
 import { useLanguage } from "@/hooks/useLanguage"
 const SmNavbarTop = () => {
     const [highestRatedP, sethighestRatedP] = useState(true)

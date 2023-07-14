@@ -7,7 +7,7 @@ import Link from "next/link";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import SearchBoxSuggMenuMC from "@/components/lg-searchmenu";
+import SearchBoxSuggMenuMC from "@/components/lg-searchmenu-mc";
 
 export default function MedicalCentre({ medData }: { medData: any }) {
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ProductsPageData from './products-page-data';
 import Image from 'next/image';
 import BreadCrumb from './breadcrumb';
@@ -10,7 +10,6 @@ export const ProductsPage = ({ filterPath, isSearchPage, categoryData, menuData,
     const [readMoreClick, setReadMoreClick] = useState(false)
     const {query} = useRouter()
 
-
     return (
         <div className="max-w-[1450px] mx-auto  sm:px-[10px] px-[5px]">
             {
@@ -19,7 +18,6 @@ export const ProductsPage = ({ filterPath, isSearchPage, categoryData, menuData,
                         {isBrandsPage ?
                                 <Image src={categoryData.brand_details.images.banner} height={500} width={1440} alt="headerimg" className='object-cover lg:h-[20rem] md:h-[15rem] w-full mx-auto ' />
                                 : 
-                        
                             <Image src={categoryData.filters.categories[0].images.banner} height={500} width={1440} alt="headerimg" className='object-cover lg:h-[20rem] md:h-[15rem] w-full mx-auto ' />}
                         <BreadCrumb menuData={menuData} type={type} />
 

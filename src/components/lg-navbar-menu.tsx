@@ -285,9 +285,7 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                         }} onMouseLeave={() => {
                             setGroupHover(false)
                             setOverlay(false)
-                        }} className="data-[motion=from-start]:animate-enterFromLeft data-[motion=from-end]:animate-enterFromRight data-[motion=to-start]:animate-exitToLeft data-[motion=to-end]:animate-exitToRight absolute top-0 left-0  ">
-
-                            {/* <div className="z-30 absolute border-t border group-hover:opacity-100 opacity-0 group-hover:scale-100 scale-0  transition-opacity duration-300 left-0 right-0 bg-white "> */}
+                        }} className="data-[motion=from-start]:animate-enterFromLeft data-[motion=from-end]:animate-enterFromRight data-[motion=to-start]:animate-exitToLeft data-[motion=to-end]:animate-exitToRight absolute top-0 left-0  right-0">
                             <div className="grid grid-cols-12">
                                 <div className=" xl:col-span-2 col-span-3  h-[415px] overflow-hidden">
                                     {data.data.map((item: any, i: number) => (
@@ -301,7 +299,7 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                                         }} className={`relative py-1 w-full flex justify-between px-2 text-sm items-center  `}>
                                             {hoverIndex === i ?
                                                 <motion.div
-                                                    style={{ x }}
+                                                   
                                                     className="bg-slate-100 absolute left-0 right-0 h-full bottom-0 z-0" layoutId="underline" />
                                                 : null}
                                             <div className="space-x-2 flex items-center z-10">
@@ -393,13 +391,11 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                                     </div>
                                 </div>
                             </div>
-                            {/* </div> */}
-
                         </NavigationMenu.Content>
                     </NavigationMenu.Item>
 
                     <NavigationMenu.Item className="w-full xl:col-span-1 col-span-2">
-                        <NavigationMenu.Trigger className="w-full group flex  select-none items-center justify-center rounded-[4px] px-3  text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
+                        <NavigationMenu.Trigger onMouseOver={() => setOverlay(true)} onMouseLeave={() => setOverlay(false)} className="w-full group flex  select-none items-center justify-center rounded-[4px] px-3  text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
                             <Link href={"/brands"} className="flex items-center underline-tra hover:text-blue-500 ">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                                     stroke="currentColor" className="w-6 h-6 my-2 float-left mr-3">
@@ -409,18 +405,16 @@ const LgNavbarMenu = ({ setOverlay, data, brands_data }: { setOverlay: any, data
                                 <h6>Brands</h6>
                             </Link>
                         </NavigationMenu.Trigger>
-                        <NavigationMenu.Content className="absolute top-0 left-0 right-0 w-full sm:w-auto">
+                        <NavigationMenu.Content onMouseOver={() => setOverlay(true)} onMouseLeave={() => setOverlay(false)} className="absolute top-0 left-0 right-0 w-full sm:w-auto">
                             <ul
                                 className="">
                                 <li key={"brands-section"} >
                                     <div className="grid grid-cols-5 gap-3  mx-auto" id="brands-section">
                                         {brands_data.data.brands.map((bd: any) => (
-                                            <div className="grid-flow-row mb-5"> <div className={`flex flex-col mr-5`}>
-                                                <Link href={`/brand/${bd.slug}`}>
-                                                    <Image className="mx-auto rounded-full border border-white bg-white shadow-md" width={120} height={120} src={bd.images.logo} alt="" />
-                                                    <h5 className="text-center mt-3">{bd.name}</h5>
-                                                </Link>
-                                            </div></div>
+                                            <Link href={`/brand/${bd.slug}`}>
+                                                <Image className="mx-auto rounded-full border border-white bg-white shadow-md" width={120} height={120} src={bd.images.logo} alt="" />
+                                                <h5 className="text-center mt-3">{bd.name}</h5>
+                                            </Link>
                                         ))}
                                     </div>
                                     <div className="w-full text-center my-5">

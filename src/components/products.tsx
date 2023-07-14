@@ -35,7 +35,7 @@ const Products = ({ lang, slug, type_key, proMetadata }: {
 
     return (
         <div className="sm:px-[10px] px-[5px] max-w-[1450px] mx-auto">
-            <div style={{ background: proMetadata.settings.background_value }} className='  '>
+            <div style={{ background: proMetadata.settings.background_value }} >
                 {proMetadata.settings.show_section_title ?
                     <div className="flex justify-between pt-3 mx-4 items-center ">
                         <h3 className="md:text-2xl sm:text-lg text-base font-bold flex-1">{proMetadata.section_title}</h3>

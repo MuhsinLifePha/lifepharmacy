@@ -372,4 +372,7 @@ section{
     @apply bg-[#dae0e5]
 }
 
+.swiper-pagination-bullets{
+    bottom: -5px !important;
+}
 

@@ -16,7 +16,7 @@ const ProductsSlider = ({ proData }: { proData: any }) => {
                 </svg>
             </button>
             <Swiper
-                className="mb-7 w-[99%] "
+                className="mb-7 w-[99%]"
                 slidesPerView={2}
                 modules={[Autoplay, Navigation, Pagination]}
                 onBeforeInit={(swiper) => {

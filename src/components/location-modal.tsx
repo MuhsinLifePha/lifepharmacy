@@ -1,6 +1,6 @@
 import { Dialog, Transition, RadioGroup, Listbox } from "@headlessui/react";
 import { Fragment } from "react"
-import ModalContainer from "./modal-container";
+import ModalContainer from "./ui/modal-container";
 
 const LocationModal = ({ showModal, setCloseModal, setLocationModal }: { showModal: boolean, setCloseModal: any, setLocationModal: any }) => {
     return (

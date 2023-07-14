@@ -1,7 +1,7 @@
 import { ShopNowButton } from "@/components/Button"
 import { FaArrowRight, FaCalendarCheck, FaComment, FaEdit, FaFileMedical, FaHeart, FaLocationArrow, FaMapMarked, FaMapMarkedAlt, FaMapMarker, FaMapMarkerAlt, FaMapPin, FaPlus, FaPowerOff, FaUser, FaWallet } from "react-icons/fa"
 import { useState } from "react"
-import TransitionComp from "@/components/transition"
+import TransitionComp from "@/components/ui/transition"
 import { signOut, useSession } from "next-auth/react"
 import { Cross1Icon } from "@radix-ui/react-icons"
 import { Tooltip } from "@material-tailwind/react"
