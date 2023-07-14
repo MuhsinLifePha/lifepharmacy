@@ -77,7 +77,7 @@ export const SingleProductData = ({ pro_data, isRowView }: { pro_data: any, isRo
                                     {pro_data.offers.value ?
                                         <>{parseFloat(pro_data.offers.value).toFixed(0)} % OFF</>
                                         : <>BUY1 GET1</>}</div> : null}
-                            {pro_data.label ? <div style={{ background: pro_data.label.color_code }} className={`  skeleton-box flex absolute left-0 top-0 w-fit text-white px-3 items-center rounded-tl-lg rounded-br-2xl text-[9px] sm:py-1 py-[2px] sm:text-xs h-fit`}><span className='items-center'>{pro_data.label.label_text}</span>
+                            {pro_data.label ? <div style={{ background: pro_data.label.color_code }} className={`skeleton-box flex absolute left-0 top-0 w-fit text-white px-3 items-center rounded-tl-lg rounded-br-2xl text-[9px] sm:py-1 py-[2px] sm:text-xs h-fit`}><span className='items-center'>{pro_data.label.label_text}</span>
                                 <div className={`${pathname?.substring(4, 6) === 'en' ? "ml-2" : "ml-2"}`}>{generateIcon(pro_data.label.icon_type)}</div></div> : null}
                         </Link>
                     </figure>

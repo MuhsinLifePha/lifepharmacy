@@ -29,13 +29,13 @@ const AccordionCategoryMenu = ({ accordionData }: { accordionData: any }) => {
 
     return (
         <Accordion.Root
-            className="bg-mauve6 w-full rounded-md shadow-[0_2px_10px] shadow-black/5 py-4 "
+            className="bg-mauve6 w-full rounded-md py-4 "
             type="single"
             defaultValue={"0"}
             collapsible
         >
             {accordionData.children.map((child: any, indx: number) => (
-                <AccordionItem  value={indx.toString()} className="">
+                <AccordionItem value={indx.toString()} className={""}>
                     <AccordionTrigger className="w-full data-[state=open]:text-blue-500 data-[state=open]:border-none border-b-muted border-b md:text-base sm:text-sm text-[9px]"> {child.name} </AccordionTrigger>
                     <AccordionContent className="">
                         <div className='grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-3 sm:gap-3'>
@@ -48,7 +48,6 @@ const AccordionCategoryMenu = ({ accordionData }: { accordionData: any }) => {
                         </div>
                     </AccordionContent>
                 </AccordionItem>
-
             ))}
 
 

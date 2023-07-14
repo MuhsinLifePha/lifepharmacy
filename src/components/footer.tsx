@@ -57,7 +57,7 @@ export default function Footer() {
                 <footer className="bg-gray">
                     <div className="py-4 bg-gray sm:py-6  max-w-[1450px] mx-auto px-[10px]">
                         <div className="md:flex md:justify-between ">
-                            <div className="mb-6 md:mb-0 space-y-4 flex md:flex-col justify-between md:justify-normal mr-5">
+                            <div className="mb-6 md:mb-0 space-y-5 block  justify-between md:justify-normal mr-5 ">
                                 <div>
                                     <Link href="https://flowbite.com/" className="flex items-center mb-4">
                                         <Image src="https://www.lifepharmacy.com/images/logo.svg" className="h-10 mr-3" alt="FlowBite Logo" width={250} height={250} />
@@ -77,7 +77,7 @@ export default function Footer() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-8 sm:gap-6 lg:grid-cols-5 text-xs md:text-sm md:grid-cols-3 ">
+                            <div className="grid sm:grid-cols-2 grid-cols-1 gap-8 sm:gap-6 lg:grid-cols-5 text-xs md:text-sm md:grid-cols-3 ">
                                 <div>
                                     <h2 className="mb-3 text-gray-900  font-bold text-base">{t.footer.bottom_part.know_us.title}</h2>
                                     <ul className="text-gray-600 dark:text-gray-400 space-y-1">
@@ -87,8 +87,6 @@ export default function Footer() {
                                         <li >
                                             <Link href="https://www.lifepharmacy.com/contact" className="hover:text-blue-500 text-gray-500 underline-tra">{t.footer.bottom_part.know_us.contact_us}</Link>
                                         </li>
-                                    
-
                                     </ul>
                                 </div>
                                 <div>
@@ -226,6 +224,8 @@ export default function Footer() {
                         </section></>
 
                     : null}
+
+                    
             </div>
 
         </>

@@ -82,7 +82,6 @@ const CartItem = ({ cartItem }: { cartItem: any }) => {
                 </CommandItem>
             </motion.div>
         </motion.div>
-
     )
 }
 
