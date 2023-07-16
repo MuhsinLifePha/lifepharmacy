@@ -1,44 +1,39 @@
-import React, { useState } from "react";
+import { Select } from 'antd';
+import React from 'react';
 
-export default function SegmentedControl() {
-  const [selectedOption, setSelectedOption] = useState("option1");
+const onChange = (value: string) => {
+  console.log(`selected ${value}`);
+};
 
-  const handleOptionChange = (option:any) => {
-    setSelectedOption(option);
-  };
+const onSearch = (value: string) => {
+  console.log('search:', value);
+};
 
-  return (
-    <div className="flex space-x-4">
-      <button
-        className={`py-2 px-4 rounded-md focus:outline-none ${
-          selectedOption === "option1"
-            ? "bg-blue-500 text-white"
-            : "bg-gray-300 text-gray-700"
-        }`}
-        onClick={() => handleOptionChange("option1")}
-      >
-        Option 1
-      </button>
-      <button
-        className={`py-2 px-4 rounded-md focus:outline-none ${
-          selectedOption === "option2"
-            ? "bg-blue-500 text-white"
-            : "bg-gray-300 text-gray-700"
-        }`}
-        onClick={() => handleOptionChange("option2")}
-      >
-        Option 2
-      </button>
-      <button
-        className={`py-2 px-4 rounded-md focus:outline-none ${
-          selectedOption === "option3"
-            ? "bg-blue-500 text-white"
-            : "bg-gray-300 text-gray-700"
-        }`}
-        onClick={() => handleOptionChange("option3")}
-      >
-        Option 3
-      </button>
-    </div>
-  );
-}
+const ComboboxDemo: React.FC = () => (
+  <Select
+    showSearch
+    placeholder="Select a person"
+    optionFilterProp="children"
+    onChange={onChange}
+    onSearch={onSearch}
+    filterOption={(input, option) =>
+      (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+    }
+    options={[
+      {
+        value: 'jack',
+        label: 'Jack',
+      },
+      {
+        value: 'lucy',
+        label: 'Lucy',
+      },
+      {
+        value: 'tom',
+        label: 'Tom',
+      },
+    ]}
+  />
+);
+
+export default ComboboxDemo;

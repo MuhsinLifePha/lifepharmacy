@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html{
-    font-family: '__Poppins_dd609f' !important;
+    font-family: '__Poppins_775641' !important;
 }
 
 ::-webkit-scrollbar {
@@ -375,4 +375,12 @@ section{
 .swiper-pagination-bullets{
     bottom: -5px !important;
 }
-
+.ant-drawer-title{
+    @apply !text-xl
+}
+.ant-drawer-body{
+    @apply !px-4 !py-3
+}
+.ant-drawer-content-wrapper{
+    @apply !h-fit
+}

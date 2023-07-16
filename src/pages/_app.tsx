@@ -10,7 +10,7 @@ import { useLanguage } from '@/hooks/useLanguage'
 import { Poppins } from 'next/font/google';
 import NextNProgress from 'nextjs-progressbar';
 import Head from 'next/head'
-
+import { ConfigProvider, Typography } from "antd";
 const poppins = Poppins({
   weight: '400',
   subsets: ['latin-ext'],
@@ -36,8 +36,13 @@ const App = ({ Component, data, brands_data, pageProps }: TProps) => {
   const { t, locale } = useLanguage();
   
   return (
-    <>
-      <Head>
+<ConfigProvider
+      theme={{
+        token: {
+          fontFamily: poppins.style.fontFamily
+        }
+      }}>
+              <Head>
         <title>Life Pharmacy UAE - Online Pharmacy Delivery in 30 minutes</title>
       </Head>
       <NextNProgress color="#eba834" />
@@ -48,7 +53,9 @@ const App = ({ Component, data, brands_data, pageProps }: TProps) => {
           </Layout>
         </main>
       </SessionProvider>
-    </>
+      </ConfigProvider>
+
+
   )
 
 }

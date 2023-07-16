@@ -1,28 +1,38 @@
 import { Dialog, Transition, RadioGroup, Listbox } from "@headlessui/react";
 import React, { Fragment, useEffect } from "react"
 import ModalContainer from "./ui/modal-container";
-import { Tabs, Tab, TabsHeader, TabsBody, TabPanel } from "@material-tailwind/react"
+import { Tabs, Tab, TabsHeader, TabsBody, TabPanel, select } from "@material-tailwind/react"
 import PhoneInput from "react-phone-number-input";
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { useSession } from "next-auth/react";
 import OtpField from "react-otp-field";
 import { useTimer } from "use-timer";
 import { signIn } from "next-auth/react";
 import Sheet, { SheetRef } from 'react-modal-sheet';
-import { CalendarIcon, CaretSortIcon, CheckIcon, Cross1Icon, EnvelopeClosedIcon, FaceIcon, GearIcon, PersonIcon, RocketIcon } from "@radix-ui/react-icons";
+import { CalendarIcon, CaretSortIcon, CheckCircledIcon, CheckIcon, Cross1Icon, EnvelopeClosedIcon, FaceIcon, GearIcon, PersonIcon, RocketIcon } from "@radix-ui/react-icons";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
+
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from "./ui/command";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, CheckCircle, ChevronDown, ChevronsUpDown } from "lucide-react";
+import { BsPatchCheckFill } from "react-icons/bs"
 import Image from "next/image";
+import { BottomSheet, BottomSheetRef } from 'react-spring-bottom-sheet'
+import ExampleSheet from "./sheet";
+import { Button, Cascader, Drawer, DrawerProps, Radio, Select, Space } from 'antd';
+import ComboboxDemo from "./comp";
+import { Input } from 'antd';
+import { AiFillCheckCircle, AiOutlineInfoCircle, AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { MdAlternateEmail } from "react-icons/md"
+import OtpInput from 'react-otp-input';
 
+const { Search } = Input;
 const AuthModal = ({ showModal, setCloseModal, setaddnewAddressFormVisibility, setLocationModal, setnotValidOTPPageVisib, setaddNewAddress }: { showModal: boolean, setCloseModal: any, setaddNewAddress: any, setaddnewAddressFormVisibility: any, setLocationModal: any, setnotValidOTPPageVisib: any }) => {
     const { data: session } = useSession();
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [isPhoneNumberValid, setPhoneNumberValidState] = useState(false);
-    const [signInUsing, signInSet] = useState("");
+    const [isPhoneNumberValid, setPhoneNumberValidState] = useState<any>("");
+    const [signInUsing, signInSet] = useState({ value: "", type: "" });
     const [isEmailValid, setEmailValidState] = useState(false);
     const [otpPageVisibility, setOtpPageVisibility] = useState(false);
     const [state, setState] = useState('');
@@ -30,10 +40,11 @@ const AuthModal = ({ showModal, setCloseModal, setaddnewAddressFormVisibility, s
     const handleChange = (state: string) => setState(state);
     const [phoneNumberforOTP, setPhoneNumberforOtp] = useState('');
     const [isSheetOpen, setSheetOpen] = useState(false);
-    const ref = React.useRef<SheetRef>();
+    // const ref = React.useRef<SheetRef>();
+    const sheetRef = useRef<any>()
     const [value, setValue] = React.useState("")
-    const [open, setOpen] = useState(false)
-    const [countriesData, setCountriesData] = useState<any>(null)
+    const [LoginSignUpPageVisibility, setLoginSignUpPageVisibility] = useState(true)
+    const [selectedCountryData, setSelectedCountryData] = useState<any>(null)
     var addressId = session ? (session.token.addresses.length != 0 ? (session.token.addresses[session.token.addresses.length - 1]?.id) + 1 : 12345 + 1) : ""
 
     const { time, start, pause, reset, status } = useTimer({
@@ -43,7 +54,7 @@ const AuthModal = ({ showModal, setCloseModal, setaddnewAddressFormVisibility, s
 
 
     async function otpIsValid(otpValue: string) {
-        if (signInUsing === "Phone") {
+        if (signInUsing.type === "Phone") {
             await signIn('credentials', { phone: phoneNumberforOTP, code: otpValue, isPhone: "true", redirect: false })
                 .then(async (res) => {
                     if (res?.ok) {
@@ -76,16 +87,16 @@ const AuthModal = ({ showModal, setCloseModal, setaddnewAddressFormVisibility, s
 
 
     function sendOTPtoPhoneNo(pHNumber: string, type: string) {
-
+        debugger
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         var raw
-        if (type === "phone") {
+        if (type === "Phone") {
             raw = JSON.stringify({
                 "phone": pHNumber
             });
         }
-        else if (type === "email") {
+        else if (type === "Email") {
             raw = JSON.stringify({
                 "email": pHNumber
             });
@@ -130,31 +141,42 @@ const AuthModal = ({ showModal, setCloseModal, setaddnewAddressFormVisibility, s
         is_validated: 1
     });
 
-
+    const [phoneNumberValidTimeout, setPhoneNumberValidTimeout] = useState<any>(null)
+    // const [LoginCredential, setLogincredentials] = useState("")
     function isValidCredentials(value: string) {
-        if (value != null) {
-            if (isValidPhoneNumber(value)) {
-                setPhoneNumberValidState(true);
-                setFormData({ ...formData, phone: value });
-                signInSet("Phone");
+        debugger
+        setPhoneNumberValidState("loading")
+        clearTimeout(phoneNumberValidTimeout)
+        const timeout = setTimeout(() => {
+            if (value != null) {
+                if (isValidPhoneNumber(value)) {
+                    setPhoneNumberValidState("success");
+                    setFormData({ ...formData, phone: value });
+                    signInSet({ type: "Phone", value: value });
+                }
+                else {
+                    setPhoneNumberValidState("failed");
+                }
             }
-            else {
-                setPhoneNumberValidState(false);
-            }
-        }
+        }, 400)
+        setPhoneNumberValidTimeout(timeout)
     }
 
+    function isValidEmail(value: string): void {
+        setPhoneNumberValidState("loading")
+        clearTimeout(phoneNumberValidTimeout)
+        const timeout = setTimeout(() => {
+            if (value !== "") {
+                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+                    setEmailValidState(true);
+                    signInSet({ type: "Email", value: value });
 
-    function isValidEmail(e: React.ChangeEvent<HTMLInputElement>): void {
-        const emailAddress: string = e.target.value;
-        if (emailAddress !== null) {
-            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(emailAddress)) {
-                setEmailValidState(true);
-                signInSet("Email");
-            } else {
-                setEmailValidState(false);
+                } else {
+                    setEmailValidState(false);
+                }
             }
-        }
+        }, 400)
+        setPhoneNumberValidTimeout(timeout)
     }
 
     function startTimer() {
@@ -166,69 +188,47 @@ const AuthModal = ({ showModal, setCloseModal, setaddnewAddressFormVisibility, s
         reset();
         return 0;
     }
-    const frameworks = [
-        {
-            value: "next.js",
-            label: "Next.js",
-        },
-        {
-            value: "sveltekit",
-            label: "SvelteKit",
-        },
-        {
-            value: "nuxt.js",
-            label: "Nuxt.js",
-        },
-        {
-            value: "remix",
-            label: "Remix",
-        },
-        {
-            value: "astro",
-            label: "Astro",
-        },
-    ]
+
     function isValidPhoneNoInput(SetOtpVisb: boolean) {
 
         if (SetOtpVisb) {
-            (document.getElementById("loginOrSignup") as HTMLInputElement).classList.add("hidden")
+            setLoginSignUpPageVisibility(false)
+            // (document.getElementById("loginOrSignup") as HTMLInputElement).classList.add("hidden")
             setOtpPageVisibility(true);
-
             setState('');
             startTimer();
 
-            if (signInUsing === "Phone") {
-                const phoneNo = ((document.getElementById("phoneInputOTP") as HTMLInputElement).value).replace(/\+|\s/g, "").trim()
-                sendOTPtoPhoneNo(phoneNo, "phone");
-            }
-            else {
-                const emailId = (document.getElementById("emailInput") as HTMLInputElement).value
+            sendOTPtoPhoneNo(signInUsing.value, signInUsing.type);
 
-                // document.getElementById("emailInput").value
-                sendOTPtoPhoneNo(emailId, "email");
-            }
         }
         else {
-            (document.getElementById("loginOrSignup") as HTMLInputElement).classList.remove("hidden")
+            setLoginSignUpPageVisibility(true)
+            // (document.getElementById("loginOrSignup") as HTMLInputElement).classList.remove("hidden")
             setOtpPageVisibility(false);
             stopTimer()
         }
     }
 
-    const [CurrentCountry, setCurrentCountry] = useState<any>(null)
-
+    const [countriesData, setCountriesData] = useState<any>(null)
+    const [countriesSheet, setCountriesSheetVisib] = useState<boolean>(false)
+    const [placement, setPlacement] = useState<DrawerProps['placement']>('bottom');
     useEffect(() => {
-        fetch("https://restcountries.com/v2/all?fields=name,flags,callingCodes").then(res => res.json()).then(data => setCountriesData(data))
-
-        fetch("https://ipapi.co/json").then(res => res.json()).then((data: any) => setCurrentCountry(data.country_name))
+        fetch("https://restcountries.com/v2/region/Asia?fields=name,alpha2Code,callingCodes").then(res => res.json()).then(countriesData => {
+            setCountriesData(countriesData)
+            fetch("https://ipapi.co/json").then(res => res.json()).then((data: any) => {
+                debugger
+                const selectedCountriesDatas = countriesData.filter((countryData: any) => countryData.name === data.country_name)
+                setSelectedCountryData(selectedCountriesDatas)
+            }
+            )
+        })
     }, [])
 
     return (
 
         <>
 
-            <button onClick={() => setSheetOpen(true)}>Open sheet</button>
-            <Sheet
+            {/* <Sheet
                 ref={ref}
                 initialSnap={0}
                 snapPoints={[-50, 100, 0]}
@@ -331,7 +331,7 @@ const AuthModal = ({ showModal, setCloseModal, setaddnewAddressFormVisibility, s
                                     {countriesData ?
                                         countriesData.map((countr: any) => (
                                             <CommandItem className={`space-x-3 items-center ${CurrentCountry === countr.name ? "bg-slate-200 " : ""}`}>
-                                                <Image src={countr.flags.png} width="50" height="50" className="w-[2.5rem] h-[2.5rem] rounded-full object-cover" alt={countr.name} />
+                                                <Image src={countr.flags.svg} width="50" height="50" className="w-[2.5rem] h-[2.5rem] rounded-full object-cover" alt={countr.name} />
                                                 <p className="text-base">{countr.name}</p>
                                                 <p className="text-base font-semibold">(+{countr.callingCodes})</p>
                                             </CommandItem>
@@ -344,8 +344,212 @@ const AuthModal = ({ showModal, setCloseModal, setaddnewAddressFormVisibility, s
                     </Sheet.Content>
                 </Sheet.Container>
                 <Sheet.Backdrop />
-            </Sheet>
-            <ModalContainer showModal={showModal} setCloseModal={setCloseModal}>
+            </Sheet> */}
+            <Button type="primary" onClick={() => setSheetOpen(true)}>
+                Open
+            </Button>
+            <Drawer
+                title="Login or Signup"
+                placement={placement}
+                width={500}
+                onClose={() => setSheetOpen(false)}
+                open={isSheetOpen}
+                extra={
+                    <Space>
+
+                    </Space>
+                }
+                className="rounded-t-3xl max-w-xl mx-auto"
+            >
+                <div className=" flex justify-between border-b-2 border-muted hidden">
+                    <h4 className="font-semibold text-xl items-center">Login or sign up</h4>
+                    <div>
+                        <Cross1Icon className="w-6 h-6" />
+                    </div>
+                </div>
+                {LoginSignUpPageVisibility ?
+                    <form className="space-y-2" action="#" >
+                        <div className="mt-3 flex-1">
+                            <Tabs value="phone" className="border-none">
+                                <TabsHeader className="bg-slate-100">
+                                    <Tab key="phone" value="phone" className="z-20">
+                                        <span className="sm:text-base text-xs">Using Phone</span>
+                                    </Tab>
+                                    <Tab key="email" value="email">
+                                        <span className="sm:text-base text-xs">Using Email</span>
+                                    </Tab>
+                                </TabsHeader>
+                                <TabsBody >
+                                    <TabPanel key="phoneinput" value="phone" >
+                                        <div>
+                                            <label className=" block mb-2 font-medium text-gray-900 sm:text-lg text-base">Enter your mobile number <span className="text-red-500">*</span></label>
+                                            <Space.Compact size="large" style={{ width: '100%' }}>
+                                                <button onClick={() => setCountriesSheetVisib(true)} className="bg-slate-100 flex items-center space-x-2 rounded-l-lg px-2 py-1 border border-slate-300 border-r-0">
+                                                    {selectedCountryData ? <> <Image src={`https://hatscripts.github.io/circle-flags/flags/${selectedCountryData[0].alpha2Code.toLowerCase()}.svg`} width="50" height="50" className="w-8 h-8" alt={countriesData[0].name} />
+                                                        <h5 className="font-semibold text-lg">+{selectedCountryData[0].callingCodes}</h5>
+                                                    </>
+                                                        : null
+                                                    }
+                                                    <ChevronDown className="w-12 h-10" />
+                                                </button>
+                                                <Input onChange={(e) => isValidCredentials('+' + selectedCountryData[0].callingCodes + e.target.value)} className="font-semibold text-lg" suffix={
+                                                    isPhoneNumberValid === "loading" ?
+                                                        <AiOutlineLoading3Quarters className="w-5 h-5 text-blue-500 animate-spin" /> :
+                                                        isPhoneNumberValid === "success" ?
+                                                            <AiFillCheckCircle className="w-6 h-6 text-green-500 " />
+                                                            : isPhoneNumberValid === "failed" ? <AiOutlineInfoCircle className="w-6 h-6 text-red-500 " />
+                                                                : null
+                                                } />
+
+                                            </Space.Compact>
+                                        </div>
+                                    </TabPanel>
+                                    <TabPanel key="emailInput" value="email" >
+                                        {/* <div className="relative">
+                                        <label className="block mb-2  font-medium text-gray-900
+">Please enter your email <span className="text-red-500">*</span></label>
+                                        <input onChange={isValidEmail} id="emailInput" type="text" name="email" className="text-md font-semibold bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-0 focus:border-0 block w-full p-2.5" placeholder="Your Email Address" required />
+                                        {isEmailValid ?
+                                            <div
+                                                className="absolute top-[60px] right-3 grid h-5 w-5 -translate-y-2/4 place-items-center text-blue-gray-500">
+                                                <i className="">
+                                                    <svg className="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none" /> <path className="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                                                    </svg>
+                                                </i>
+                                            </div> : ""}
+                                    </div> */}
+                                        <div>
+                                            <label className=" block mb-2 font-medium text-gray-900 sm:text-lg text-base">Enter your Email Address<span className="text-red-500">*</span></label>
+                                            <Space.Compact size="large" style={{ width: '100%' }}>
+                                                <Input className="font-semibold text-lg w-full py-2" prefix={
+                                                    <MdAlternateEmail className="w-6 h-6 text-slate-400" />
+                                                } />
+                                            </Space.Compact>
+                                        </div>
+                                    </TabPanel>
+                                </TabsBody>
+                            </Tabs>
+                        </div>
+                        <div className="">
+                            <div className="flex justify-between mb-4">
+                                <div className="flex items-start">
+                                    <div className="flex items-center h-5">
+                                    </div>
+                                    <div className="sm:text-sm  text-gray-500 text-xs">
+                                        By continuing, I agree to the <span><a href="#" className="text-blue-500">Terms of Use</a></span> & <span><a href="#" className="text-blue-500">Privacy Policy</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" disabled={isPhoneNumberValid === "success" || isEmailValid ? false : true} onClick={() => { isValidPhoneNoInput(true) }} className={"bg-blue-500 disabled:bg-blue-300" + (" flex justify-center w-full   focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ")}>
+                                <span className="mr-4 text-white">PROCEED</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-3 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                    : null}
+                {otpPageVisibility ?
+                    <div className="" id="otpPage">
+                        <h3 className="mb-3 text-xl text-blue-500 ">OTP Code</h3>
+                        <label className="block mb-2 font-medium text-gray-900">Please check your {signInUsing.type} and enter the OTP code  <span className="text-red-500">*</span></label>
+
+                        <form className="space-y-6" action="#" >
+                            {/* <OtpField
+                                value={state}
+                                onChange={handleChange}
+                                numInputs={4}
+                                classNames={"flex justify-center "}
+                                inputProps={{ className: 'sm:!w-[90px] w-[60px]  mr-5 text-3xl text-center font-bold h-[60px] border-blue-400 focus:ring-0 border-b-4 border-t-0 border-x-0 bg-transparent' }}
+                            />
+ */}
+                            <OtpInput
+                                value={state}
+                                onChange={handleChange}
+                                containerStyle={{display:"flex", justifyContent:"space-between", width: "80%",marginLeft:"auto",marginRight:"auto"}}
+                                numInputs={4}
+                                inputStyle={{ width:"100%", fontSize:"1.5rem" ,  paddingTop: "0.5rem",paddingBottom: "0.5rem"}}
+                                renderSeparator={<span className="w-[0.5rem] mx-auto"> - </span>}
+                                renderInput={(props: any) => <Input  {...props} />}
+                            />
+                            <div>
+                                {countDownVisible ? <div className="text-sm  text-gray-500 flex justify-between" id="seconds-count">
+                                    <p>Didn't Receive Code?</p> <div className="">Request again in {time >= 0 ? time : stopTimer()} seconds</div>
+                                </div> : <button onClick={() => { isValidPhoneNoInput(true) }} type="button" className="bg-white hover:bg-blue-600 px-3 py-2 rounded-lg border text-blue-500 border-blue-500  hover:text-white text-xs tracking-widest" >RESEND OTP</button>
+                                }
+                            </div>
+                            <div className="flex space-x-3">
+                                <button onClick={() => { isValidPhoneNoInput(false) }} className="bg-white border border-gray-600  justify-center w-1/2 flex items-center focus:bg-black active:text-white focus:text-white hover:bg-gray-700  hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-3 h-3">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                                    </svg>
+                                    <span className="ml-4">Back</span>
+                                </button>
+                                <button type="button" onClick={(e) => {
+                                    e.preventDefault()
+                                    otpIsValid(state)
+                                }} disabled={state.length === 4 ? false : true} className={" disabled:bg-blue-300 bg-blue-500  items-center flex justify-center w-full focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "}>
+                                    <span className="mr-4 text-white ">PROCEED</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-3 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </form>
+                    </div> : null}
+            </Drawer>
+
+            <Drawer
+                title="Select a Country"
+                placement={placement}
+                width={500}
+                onClose={() => setCountriesSheetVisib(false)}
+                open={countriesSheet}
+                extra={
+                    <Space>
+
+                    </Space>
+                }
+                className="rounded-t-3xl max-w-xl mx-auto"
+            >
+                <Command className="rounded-lg border shadow-md ">
+                    <CommandInput placeholder="Type a command or search..." />
+                    <CommandList>
+                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandGroup >
+                            {selectedCountryData ?
+                                <CommandItem>
+                                    <button className="space-x-3 items-center bg-slate-100 flex justify-between  px-2 pr-5 py-1.5 w-full" onClick={() => { setCountriesSheetVisib(false) }}>
+                                        <div className="flex space-x-3 items-center">
+                                            <Image src={`https://hatscripts.github.io/circle-flags/flags/${selectedCountryData[0].alpha2Code.toLowerCase()}.svg`} width="50" height="50" className="w-8 h-8" alt={countriesData[0].name} />                                        <p className="text-base">{selectedCountryData[0].name}</p>
+                                            <p className="text-base font-semibold">(+{selectedCountryData[0].callingCodes})</p>
+                                        </div>
+                                        <BsPatchCheckFill className="w-6 h-6 fill-green-500" />
+                                    </button>
+                                </CommandItem>
+                                : null}
+                            {countriesData ?
+                                countriesData.map((countr: any) => (
+                                    <CommandItem className={` ${selectedCountryData && selectedCountryData[0].name === countr.name ? "hidden" : ""}`}>
+                                        <button onClick={() => {
+                                            setSelectedCountryData([countr])
+                                            setCountriesSheetVisib(false)
+                                        }
+                                        } className="space-x-3 items-center w-full h-full flex px-2 pr-5 py-1.5">
+                                            <Image src={`https://hatscripts.github.io/circle-flags/flags/${countr.alpha2Code.toLowerCase()}.svg`} width="50" height="50" className="w-8 h-8" alt={countr.name} />                                            <p className="text-base">{countr.name}</p>
+                                            <p className="text-base font-semibold">(+{countr.callingCodes})</p>
+                                        </button>
+                                    </CommandItem>
+                                ))
+                                : null}
+                        </CommandGroup>
+                        <CommandSeparator />
+                    </CommandList>
+                </Command>
+
+            </Drawer>
+
+            {/* <ModalContainer showModal={showModal} setCloseModal={setCloseModal}>
                 <Dialog.Panel className="w-full sm:max-w-lg max-w-xs transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                     <div id="loginOrSignup">
                         <Dialog.Title
@@ -467,7 +671,7 @@ const AuthModal = ({ showModal, setCloseModal, setaddnewAddressFormVisibility, s
                             </form>
                         </div> : null}
                 </Dialog.Panel>
-            </ModalContainer>
+            </ModalContainer> */}
         </>
     )
 
